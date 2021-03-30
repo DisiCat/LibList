@@ -96,11 +96,17 @@ namespace LibraryList
 
         public void AddFirst(int value)
         {
-            Length++;
             Node first = new Node(value);
 
             first.Next = _root;
             _root = first;
+
+            if (Length == 0)
+            {
+                _tail = _root;
+            }
+
+            Length++;
         }
 
         public void AddFirst(LinkedList list)
@@ -207,7 +213,12 @@ namespace LibraryList
                         Node current = GetNodeByIndex(index - 1);
 
                         current.Next = current.Next.Next;
+
+                        if(current.Next is null)
+                        {
                         _tail = current;
+
+                        }
                     }
                     else
                     {
@@ -498,9 +509,6 @@ namespace LibraryList
             if (!(this is null))
             {
                 Node new_root = null;
-
-                //if (isDescending == true)
-                //{
                     while (_root != null)
                     {
                         Node node = _root;
@@ -538,35 +546,6 @@ namespace LibraryList
                         }
                     }
 
-                
-                //else
-                //{
-                //    while (_root != null)
-                //    {
-                //        Node node = _root;
-                //        _root = _root.Next;
-
-                //        if (new_root == null || node.Value < new_root.Value)
-                //        {
-                //            node.Next = new_root;
-                //            new_root = node;
-                //        }
-                //        else
-                //        {
-                //            Node current = new_root;
-
-                //            while (current.Next != null && !(node.Value < current.Next.Value))
-                //            {
-                //                current = current.Next;
-                //            }
-
-                //            node.Next = current.Next;
-                //            current.Next = node;
-                //        }
-                //    }
-
-                //}
-
                 _root = new_root;
             }
             else
@@ -580,15 +559,15 @@ namespace LibraryList
             if (Length != 0)
             {
                 Node current = _root;
-                string s = current.Value + " ";
+                StringBuilder stringBulder = new StringBuilder($"{current.Value} ");
 
                 while (!(current.Next is null))
                 {
                     current = current.Next;
-                    s += current.Value + " ";
+                    stringBulder.Append($"{current.Value} ");
                 }
-
-                return s;
+                
+                return stringBulder.ToString().Trim();
             }
 
             return String.Empty;
@@ -614,7 +593,6 @@ namespace LibraryList
                             isEqual = false;
                             break;
                         }
-
                         currentThis = currentThis.Next;
                         currentList = currentList.Next;
                     }

@@ -260,7 +260,7 @@ namespace LibraryList.Test
 
             Assert.AreEqual(new LinkedList(expectedArray), actual);
         }
-        
+
         [TestCase(new int[] { }, 0, 1)]
         [TestCase(new int[] { 1, 2, 3 }, -1,0)]
         [TestCase(new int[] { 1, 2, 3 }, -1,0)]
