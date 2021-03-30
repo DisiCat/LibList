@@ -341,6 +341,32 @@ namespace LibraryList.Test
 
             Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
         }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1, new int[] { 2, 3, 4, 5, 6, 7, 8 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 8, new int[] { 1, 2, 3, 4, 5, 6, 7 })]
+        [TestCase(new int[] { 1, 1, 3, 4, 5, 6, 8, 8 }, 10, new int[] { 1, 1, 3, 4, 5, 6, 8, 8 })]
+        [TestCase(new int[] { 1, 1, 3, 4, 5, 6, 8, 8 }, 8, new int[] { 1, 1, 3, 4, 5, 6, 8 })]
+        public void RemoveByValue_WhenValuePassed_ThenRemoveValue(int[] actualArray, int value, int[] expectedArray)
+        {
+            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+
+            actual.RemoveByValue(value);
+
+            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 1, 4, 1, 6, 7, 8 }, 1, new int[] { 2, 4, 6, 7, 8 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 8, new int[] { 1, 2, 3, 4, 5, 6, 7 })]
+        [TestCase(new int[] { 1, 1, 3, 4, 5, 6, 8, 8 }, 10, new int[] { 1, 1, 3, 4, 5, 6, 8, 8 })]
+        [TestCase(new int[] { 8, 8, 8 }, 8, new int[] { })]
+        public void RemoveAllByValue_WhenValue_TnenRemoveAllValue(int[] actualArray, int value, int[] expectedArray)
+        {
+            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+
+            actual.RemoveAllByValue(value);
+
+            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+        }
     }
 }
 

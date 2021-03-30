@@ -377,6 +377,29 @@ namespace LibraryList
             return -1;
         }
 
+        public void RemoveByValue(int value)
+        {
+            int index = GetIndexByValue(value);
+
+            if (index != -1)
+            {
+                RemoveByIndex(index);
+            }
+
+        }
+
+        public void RemoveAllByValue(int value)
+        {
+            int index = GetIndexByValue(value);
+
+            while (index != -1)
+            {
+                RemoveByIndex(index);
+                index = GetIndexByValue(value);
+            }
+
+        }
+
         public void Reverse()
         {
             if (!(this is null))
@@ -468,15 +491,15 @@ namespace LibraryList
             if (Length != 0)
             {
                 DoubleNode current = _root;
-                string s = current.Value + " ";
+                StringBuilder stringBulder = new StringBuilder($"{current.Value} ");
 
                 while (!(current.Next is null))
                 {
                     current = current.Next;
-                    s += current.Value + " ";
+                    stringBulder.Append($"{current.Value} ");
                 }
 
-                return s;
+                return stringBulder.ToString().Trim();
             }
 
             return String.Empty;
