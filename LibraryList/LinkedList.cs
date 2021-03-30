@@ -499,60 +499,73 @@ namespace LibraryList
             {
                 Node new_root = null;
 
-                if (isDescending == true)
-                {
+                //if (isDescending == true)
+                //{
                     while (_root != null)
                     {
                         Node node = _root;
                         _root = _root.Next;
 
-                        if (new_root == null || node.Value > new_root.Value)
+                        if ( new_root == null ||  (node.Value > new_root.Value && isDescending ) ||  (node.Value < new_root.Value && !isDescending) )
                         {
                             node.Next = new_root;
+                            
+                            if (node.Next is null)
+                            {
+                                _tail = node;
+                            }
+
                             new_root = node;
+
                         }
                         else
                         {
                             Node current = new_root;
 
-                            while (current.Next != null && !(node.Value > current.Next.Value))
+                            while ((current.Next != null && !(node.Value > current.Next.Value) && isDescending) || (current.Next != null && !(node.Value < current.Next.Value) && !isDescending))
                             {
                                 current = current.Next;
                             }
 
                             node.Next = current.Next;
-                            current.Next = node;
-                        }
-                    }
 
-                }
-                else
-                {
-                    while (_root != null)
-                    {
-                        Node node = _root;
-                        _root = _root.Next;
-
-                        if (new_root == null || node.Value < new_root.Value)
-                        {
-                            node.Next = new_root;
-                            new_root = node;
-                        }
-                        else
-                        {
-                            Node current = new_root;
-
-                            while (current.Next != null && !(node.Value < current.Next.Value))
+                            if (node.Next is null)
                             {
-                                current = current.Next;
+                                _tail = node;
                             }
 
-                            node.Next = current.Next;
                             current.Next = node;
                         }
                     }
 
-                }
+                
+                //else
+                //{
+                //    while (_root != null)
+                //    {
+                //        Node node = _root;
+                //        _root = _root.Next;
+
+                //        if (new_root == null || node.Value < new_root.Value)
+                //        {
+                //            node.Next = new_root;
+                //            new_root = node;
+                //        }
+                //        else
+                //        {
+                //            Node current = new_root;
+
+                //            while (current.Next != null && !(node.Value < current.Next.Value))
+                //            {
+                //                current = current.Next;
+                //            }
+
+                //            node.Next = current.Next;
+                //            current.Next = node;
+                //        }
+                //    }
+
+                //}
 
                 _root = new_root;
             }
