@@ -114,6 +114,7 @@ namespace LibraryList
             {
                 first.Next = _root;
                 _root = first;
+                _tail = _root;
             }
 
             Length++;
@@ -187,6 +188,7 @@ namespace LibraryList
                             DoubleNode currentNewList = new DoubleNode(NewList.Value);
 
                             InsertNode(currentNewList, current);
+
                             NewList = NewList.Next;
                             ++Length;
 
@@ -243,7 +245,12 @@ namespace LibraryList
                         DoubleNode current = GetNodeByIndex(index - 1);
 
                         current.Next = current.Next.Next;
+                        
+                        if(current.Next is null)
+                        {
                         _tail = current;
+
+                        }
                     }
                     else
                     {
@@ -404,109 +411,55 @@ namespace LibraryList
             {
                 DoubleNode new_root = null;
 
-                if (isDescending == true)
+                while (_root != null)
                 {
-                    while (_root != null)
+                    DoubleNode node = _root;
+                    _root = _root.Next;
+
+                    if (new_root == null || (node.Value > new_root.Value && isDescending) || (node.Value < new_root.Value && !isDescending))
                     {
-                        DoubleNode node = _root;
-                        _root = _root.Next;
+                        node.Next = new_root;
+                        node.Previous = null;
 
-                        if (new_root == null || node.Value > new_root.Value)
+                        if (node.Next is null)
                         {
-                            node.Next = new_root;
-                            node.Previous = null;
-
-                            if (node.Next is null)
-                            {
-                                _tail = node;
-                            }
-                            else
-                            {
-                                node.Next.Previous = node;
-                            }
-
-                            new_root = node;
-
+                            _tail = node;
                         }
                         else
                         {
-                            DoubleNode current = new_root;
-
-                            while (current.Next != null && !(node.Value > current.Next.Value))
-                            {
-                                current = current.Next;
-                            }
-
-                            node.Next = current.Next;
-
-                            if (node.Next is null)
-                            {
-                                _tail = node;
-                            }
-                            else
-                            {
-                                node.Next.Previous = node;
-                            }
-
-                            current.Next = node;
-                            node.Previous = current;
-
+                            node.Next.Previous = node;
                         }
+
+                        new_root = node;
+
                     }
-
-                }
-                else
-                {
-                    while (_root != null)
+                    else
                     {
-                        DoubleNode node = _root;
-                        _root = _root.Next;
+                        DoubleNode current = new_root;
 
-                        if (new_root == null || node.Value < new_root.Value)
+                        while ((current.Next != null && !(node.Value > current.Next.Value) && isDescending) || (current.Next != null && !(node.Value < current.Next.Value) && !isDescending))
                         {
-                            node.Next = new_root;
-                            node.Previous = null;
+                            current = current.Next;
+                        }
 
-                            if (node.Next is null)
-                            {
-                                _tail = node;
-                            }
-                            else
-                            {
-                                node.Next.Previous = node;
-                            }
+                        node.Next = current.Next;
 
-                            new_root = node;
+                        if (node.Next is null)
+                        {
+                            _tail = node;
                         }
                         else
                         {
-                            DoubleNode current = new_root;
-
-                            while (current.Next != null && !(node.Value < current.Next.Value))
-                            {
-                                current = current.Next;
-                            }
-
-                            node.Next = current.Next;
-
-                            if (node.Next is null)
-                            {
-                                _tail = node;
-                            }
-                            else
-                            {
-                                node.Next.Previous = node;
-                            }
-
-                            current.Next = node;
-                            node.Previous = current;
+                            node.Next.Previous = node;
                         }
-                    }
 
+                        current.Next = node;
+                        node.Previous = current;
+
+                    }
                 }
 
                 _root = new_root;
-
             }
         }
 
