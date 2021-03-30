@@ -327,7 +327,7 @@ namespace LibraryList.Test
         {
             ArrayList actual = new ArrayList(actualArray);
 
-            actual.SortAscendingInsert();
+            actual.Sort(true);
 
             Assert.AreEqual(new ArrayList(expectedArray), actual);
         }
@@ -338,7 +338,7 @@ namespace LibraryList.Test
         {
             ArrayList actual = new ArrayList(actualArray);
 
-            actual.SortDescendingInsert();
+            actual.Sort(false);
 
             Assert.AreEqual(new ArrayList(expectedArray), actual);
         }

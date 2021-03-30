@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace LibraryList
 {
@@ -325,15 +326,17 @@ namespace LibraryList
 
         public void RemoveAllByValue(int value)
         {
-            int indexOfElements = GetIndexByValue(value);
-            while (indexOfElements != -1)
-            {
-                RemoveByIndex(indexOfElements);
-                indexOfElements = GetIndexByValue(value);
+            for (int i = 0; i < Length; i++)
+            {   
+                if(value == _array[i])
+                {
+                    RemoveByIndex(i);
+                }
             }
         }
 
-        public void SortAscendingInsert()
+
+        public void Sort(bool isdecending)
         {
             int j;
             int temp;
@@ -342,7 +345,7 @@ namespace LibraryList
                 j = i;
                 temp = _array[i];
 
-                while (j > 0 && temp < _array[j - 1])
+                while ((j > 0 && temp < _array[j - 1] && isdecending) || j > 0 && temp > _array[j - 1] && !isdecending)
                 {
                     _array[j] = _array[j - 1];
                     j--;
@@ -406,19 +409,14 @@ namespace LibraryList
 
         public override string ToString()
         {
-            if (Length != 0)
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < Length; i++)
             {
-                string s = _array[0] + " ";
-
-                for (int i = 1; i < Length; i++)
-                {
-                    s += _array[i] + " ";
-                }
-
-                return s;
+                stringBuilder.Append($"{_array[i]} ");
             }
 
-            return String.Empty;
+            return stringBuilder.ToString().Trim();
         }
 
         public override bool Equals(object obj)
@@ -426,10 +424,9 @@ namespace LibraryList
             if (obj is ArrayList || obj is null)
             {
                 ArrayList list = (ArrayList)obj;
-             
+
                 if (this.Length != list.Length)
                 {
-
                     return false;
                 }
 
