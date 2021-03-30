@@ -398,6 +398,118 @@ namespace LibraryList
             }
         }
 
+        public void Sort(bool isDescending)
+        {
+            if (!(this is null))
+            {
+                DoubleNode new_root = null;
+
+                if (isDescending == true)
+                {
+                    while (_root != null)
+                    {
+                        DoubleNode node = _root;
+                        _root = _root.Next;
+
+                        if (new_root == null || node.Value > new_root.Value)
+                        {
+                            node.Next = new_root;
+                            node.Previous = null;
+
+                            if (node.Next is null)
+                            {
+                                _tail = node;
+                            }
+                            else
+                            {
+                                node.Next.Previous = node;
+                            }
+
+                            new_root = node;
+
+                        }
+                        else
+                        {
+                            DoubleNode current = new_root;
+
+                            while (current.Next != null && !(node.Value > current.Next.Value))
+                            {
+                                current = current.Next;
+                            }
+
+                            node.Next = current.Next;
+
+                            if (node.Next is null)
+                            {
+                                _tail = node;
+                            }
+                            else
+                            {
+                                node.Next.Previous = node;
+                            }
+
+                            current.Next = node;
+                            node.Previous = current;
+
+                        }
+                    }
+
+                }
+                else
+                {
+                    while (_root != null)
+                    {
+                        DoubleNode node = _root;
+                        _root = _root.Next;
+
+                        if (new_root == null || node.Value < new_root.Value)
+                        {
+                            node.Next = new_root;
+                            node.Previous = null;
+
+                            if (node.Next is null)
+                            {
+                                _tail = node;
+                            }
+                            else
+                            {
+                                node.Next.Previous = node;
+                            }
+
+                            new_root = node;
+                        }
+                        else
+                        {
+                            DoubleNode current = new_root;
+
+                            while (current.Next != null && !(node.Value < current.Next.Value))
+                            {
+                                current = current.Next;
+                            }
+
+                            node.Next = current.Next;
+
+                            if (node.Next is null)
+                            {
+                                _tail = node;
+                            }
+                            else
+                            {
+                                node.Next.Previous = node;
+                            }
+
+                            current.Next = node;
+                            node.Previous = current;
+                        }
+                    }
+
+                }
+
+                _root = new_root;
+
+            }
+        }
+
         public override string ToString()
         {
             if (Length != 0)
@@ -429,10 +541,12 @@ namespace LibraryList
                     isEqual = true;
                     DoubleNode currentThis = this._root;
                     DoubleNode currentList = list._root;
+                    DoubleNode currentPrevThis = this._tail;
+                    DoubleNode currentPrevList = list._tail;
 
                     while (!(currentThis is null))
                     {
-                        if (currentThis.Value != currentList.Value)
+                        if (currentThis.Value != currentList.Value && currentPrevThis.Value != currentPrevList.Value)
                         {
                             isEqual = false;
                             break;
@@ -440,6 +554,9 @@ namespace LibraryList
 
                         currentThis = currentThis.Next;
                         currentList = currentList.Next;
+                        currentPrevThis = currentPrevThis.Previous;
+                        currentPrevList = currentPrevList.Previous;
+
                     }
                 }
 
