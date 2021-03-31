@@ -53,13 +53,22 @@ namespace LibraryList
                     _root = null;
                     _tail = null;
                 }
-
             }
             else
             {
                 throw new ArgumentException(" Array is Null");
             }
         }
+
+        //public DoubleLinkedList Create(int[] values)
+        //{
+        //    if (!(values is null))
+        //    {
+        //        return new DoubleLinkedList(values);
+        //    }
+
+        //    throw new ArgumentException(" Array is Null");
+        //}
 
         public void AddLast(int value)
         {
@@ -84,21 +93,19 @@ namespace LibraryList
             if (!(list is null))
             {
                 DoubleNode current = list._root;
-                int value = 0;
 
                 while (!(current is null))
                 {
-                    value = current.Value;
-                    AddLast(value);
+                    AddLast(current.Value);
                     current = current.Next;
                 }
-            
             }
             else
             {
                 throw new ArgumentException(" List is null");
             }
         }
+
         public void AddFirst(int value)
         {
             DoubleNode first = new DoubleNode(value);
@@ -108,7 +115,6 @@ namespace LibraryList
                 first.Next = _root;
                 _root.Previous = first;
                 _root = first;
-
             }
             else
             {
@@ -125,15 +131,12 @@ namespace LibraryList
             if (!(list is null))
             {
                 DoubleNode current = list._tail;
-                int value = 0;
 
-                while(!(current is null))
+                while (!(current is null))
                 {
-                    value = current.Value;
-                    AddFirst(value);
+                    AddFirst(current.Value);
                     current = current.Previous;
                 }
-
             }
             else
             {
@@ -158,7 +161,7 @@ namespace LibraryList
 
                     //current.Previous.Next = ByIndex;
                     //current.Previous = ByIndex;
-                    
+
                     Length++;
                 }
                 else
@@ -212,10 +215,10 @@ namespace LibraryList
 
         public void RemoveLast()
         {
-            if (Length !=0)
+            if (Length != 0)
             {
                 RemoveByIndex(Length - 1);
-            } 
+            }
         }
 
         public void RemoveFirst()
@@ -245,11 +248,14 @@ namespace LibraryList
                         DoubleNode current = GetNodeByIndex(index - 1);
 
                         current.Next = current.Next.Next;
-                        
-                        if(current.Next is null)
-                        {
-                        _tail = current;
 
+                        if (current.Next is null)
+                        {
+                            _tail = current;
+                        }
+                        else
+                        {
+                            current.Next.Previous = current;
                         }
                     }
                     else
@@ -397,7 +403,6 @@ namespace LibraryList
                 RemoveByIndex(index);
                 index = GetIndexByValue(value);
             }
-
         }
 
         public void Reverse()
@@ -417,7 +422,7 @@ namespace LibraryList
                         stepByOne.Next = stepByOne.Previous;
                         stepByOne.Previous = tmp;
 
-                        stepByOne =  stepByOne.Previous;
+                        stepByOne = stepByOne.Previous;
                     };
 
                     stepByOne.Next = stepByOne.Previous;
@@ -454,7 +459,6 @@ namespace LibraryList
                         }
 
                         new_root = node;
-
                     }
                     else
                     {
@@ -478,7 +482,6 @@ namespace LibraryList
 
                         current.Next = node;
                         node.Previous = current;
-
                     }
                 }
 
@@ -491,12 +494,12 @@ namespace LibraryList
             if (Length != 0)
             {
                 DoubleNode current = _root;
-                StringBuilder stringBulder = new StringBuilder($"{current.Value} ");
+                StringBuilder stringBulder = new StringBuilder();
 
-                while (!(current.Next is null))
+                while (!(current is null))
                 {
-                    current = current.Next;
                     stringBulder.Append($"{current.Value} ");
+                    current = current.Next;
                 }
 
                 return stringBulder.ToString().Trim();
@@ -555,11 +558,11 @@ namespace LibraryList
         {
             if (index >= 0 || index < Length)
             {
-                DoubleNode current ;
+                DoubleNode current;
 
                 if (index <= Length - 1 / 2)
                 {
-                   current = _root;
+                    current = _root;
 
                     for (int i = 1; i <= index; i++)
                     {
@@ -570,7 +573,7 @@ namespace LibraryList
                 {
                     current = _tail;
 
-                    for (int i = Length-2; i <= index; i--)
+                    for (int i = Length - 2; i <= index; i--)
                     {
                         current = current.Previous;
                     }

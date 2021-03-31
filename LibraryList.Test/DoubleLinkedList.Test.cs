@@ -365,7 +365,7 @@ namespace LibraryList.Test
 
             actual.RemoveAllByValue(value);
 
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual); ;
         }
     }
 }
