@@ -20,7 +20,7 @@ namespace LibraryList
 
         void RemoveFirst();
 
-        void RemoveByIndex(int index);
+        void RemoveByIndex(int index, int count );
 
         int GetIndexByValue(int value);
 
