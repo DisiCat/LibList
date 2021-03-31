@@ -3,15 +3,15 @@ using System.Text;
 
 namespace LibraryList
 {
-    public class ArrayList
+    public class ArrayList : IList
     {
-        public int Length { get; private set; }
-
-        private int[] _array;
-
         private const int indexZero = 0;
 
         private const int shiftByOne = 1;
+
+        private int[] _array;
+
+        public int Length { get; private set; }
 
         public ArrayList()
         {
@@ -27,22 +27,25 @@ namespace LibraryList
             AddFirst(el);
         }
 
-        public ArrayList(int[] initArray)
+        private ArrayList(int[] initArray)
+        {
+            Length = 0;
+            _array = new int[initArray.Length];
+
+            for (int i = 0; i < initArray.Length; i++)
+            {
+                AddLast(initArray[i]);
+            }
+        }
+
+        public static ArrayList Create(int[] initArray)
         {
             if (!(initArray == null))
             {
-                Length = 0;
-                _array = new int[initArray.Length];
+                return new ArrayList(initArray);
+            }
 
-                for (int i = 0; i < initArray.Length; i++)
-                {
-                    AddLast(initArray[i]);
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Ti she duurak? kuda null pihaech?");
-            }
+            throw new ArgumentException("Ti she duurak? kuda null pihaech?");
         }
 
         public int this[int index]
@@ -173,9 +176,7 @@ namespace LibraryList
             {
                 if (Length >= nElements)
                 {
-
                     Length -= nElements;
-
                 }
                 else
                 {
@@ -224,6 +225,7 @@ namespace LibraryList
             }
 
         }
+
         //GetIndexByValue for Maksim
         // indexOf for Svyatoslav
         public int GetIndexByValue(int value)
@@ -273,9 +275,7 @@ namespace LibraryList
             }
 
             throw new ArgumentException("empty  list");
-
         }
-
 
         // MinI for Svyatoslav
         // FindMinIndex for Maksim
@@ -324,22 +324,23 @@ namespace LibraryList
             }
         }
 
-        public void RemoveAllByValue(int value)
+        public void RemoveAllByValue(int value) // 8 8 8 
         {
             for (int i = 0; i < Length; i++)
-            {   
-                if(value == _array[i])
+            {
+                if (value == _array[i])
                 {
                     RemoveByIndex(i);
+                    --i;
                 }
             }
         }
 
-
-        public void Sort(bool isdecending)
+        public void Sort(bool isDecending)
         {
             int j;
             int temp;
+
             for (int i = 1; i < Length; i++)
             {
                 j = i;
@@ -352,58 +353,6 @@ namespace LibraryList
                 }
 
                 _array[j] = temp;
-            }
-        }
-
-        public void SortDescendingInsert()
-        {
-            int j;
-            int temp;
-            for (int i = 1; i < Length; i++)
-            {
-                j = i;
-                temp = _array[i];
-
-                while (j > 0 && temp > _array[j - 1])
-                {
-                    _array[j] = _array[j - 1];
-                    j--;
-                }
-
-                _array[j] = temp;
-            }
-        }
-        private void Resize(int oldLength)
-        {
-            if ((Length >= _array.Length) || (Length <= _array.Length / 2))
-            {
-                int newLength = (int)(Length * 1.33d + 1);
-                int[] tempArray = new int[newLength];
-
-                for (int i = 0; i < oldLength; ++i)
-                {
-                    tempArray[i] = _array[i];
-                }
-
-                _array = tempArray;
-            }
-        }
-
-        //shift to the right ------->
-        private void ShiftRight(int index, int nElements)
-        {
-            for (int i = Length - 1; i > index; --i)
-            {
-                _array[i] = _array[i - nElements];
-            }
-        }
-
-        // left shift    <-------
-        private void ShiftLeft(int index, int nElements)
-        {
-            for (int i = index; i < Length; ++i)
-            {
-                _array[i] = _array[i + nElements];
             }
         }
 
@@ -421,7 +370,7 @@ namespace LibraryList
 
         public override bool Equals(object obj)
         {
-            if (obj is ArrayList || obj is null)
+            if (obj is null || obj is ArrayList)
             {
                 ArrayList list = (ArrayList)obj;
 
@@ -444,6 +393,37 @@ namespace LibraryList
             throw new ArgumentException("obj is not arrayList!");
         }
 
+        private void Resize(int oldLength)
+        {
+            if ((Length >= _array.Length) || (Length <= _array.Length / 2))
+            {
+                int newLength = (int)(Length * 1.33d + 1);
+                int[] tempArray = new int[newLength];
+
+                for (int i = 0; i < oldLength; ++i)
+                {
+                    tempArray[i] = _array[i];
+                }
+
+                _array = tempArray;
+            }
+        }
+
+        private void ShiftRight(int index, int nElements)
+        {
+            for (int i = Length - 1; i > index; --i)
+            {
+                _array[i] = _array[i - nElements];
+            }
+        }
+
+        private void ShiftLeft(int index, int nElements)
+        {
+            for (int i = index; i < Length; ++i)
+            {
+                _array[i] = _array[i + nElements];
+            }
+        }
     }
 }
 

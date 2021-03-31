@@ -10,11 +10,10 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, new int[] { 4 })]
         public void AddLast_WhenValuePassed_ThenAddLast(int[] actualArray, int[] expectedArray)
         {
-            ArrayList actual = new ArrayList(actualArray);
-           
-          
-            actual.AddLast(4);
+            ArrayList actual = ArrayList.Create(actualArray);
 
+            actual.AddLast(4);
+            
             Assert.AreEqual(new ArrayList(expectedArray), actual);
         }
 
