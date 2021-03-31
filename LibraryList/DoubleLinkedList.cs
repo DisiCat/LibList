@@ -37,38 +37,31 @@ namespace LibraryList
 
         public DoubleLinkedList(int[] values)
         {
-            if (!(values is null))
-            {
-                Length = 0;
+            Length = 0;
 
-                if (values.Length != 0)
+            if (values.Length != 0)
+            {
+                for (int i = 0; i < values.Length; ++i)
                 {
-                    for (int i = 0; i < values.Length; ++i)
-                    {
-                        AddLast(values[i]);
-                    }
-                }
-                else
-                {
-                    _root = null;
-                    _tail = null;
+                    AddLast(values[i]);
                 }
             }
             else
             {
-                throw new ArgumentException(" Array is Null");
+                _root = null;
+                _tail = null;
             }
         }
 
-        //public DoubleLinkedList Create(int[] values)
-        //{
-        //    if (!(values is null))
-        //    {
-        //        return new DoubleLinkedList(values);
-        //    }
+        public static DoubleLinkedList Create(int[] values)
+        {
+            if (!(values is null))
+            {
+                return new DoubleLinkedList(values);
+            }
 
-        //    throw new ArgumentException(" Array is Null");
-        //}
+            throw new ArgumentException(" Array is Null");
+        }
 
         public void AddLast(int value)
         {
