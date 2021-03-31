@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibraryList
 {
-    public class DoubleLinkedList
+    public class DoubleLinkedList : IList
     {
         private DoubleNode _root;
         private DoubleNode _tail;
