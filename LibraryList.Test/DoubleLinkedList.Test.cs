@@ -302,6 +302,109 @@ namespace LibraryList.Test
             });
         }
 
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 7)]
+        [TestCase(new int[] { 8, 2, 3, 4, 5, 6, 7 }, 0)]
+        [TestCase(new int[] { 1, 2, 2 }, 1)]
+        [TestCase(new int[] { 1 }, 0)]
+        public void FindMaxIndex_WhenMethodCalled_ThenReturnMaxIndex(int[] actualArray, int expected)
+        {
+            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+
+            int actual = list.FindMaxIndex();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { })]
+        [TestCase(null)]
+        public void FindMaxIndex_WhenNullOrListIsEmptyPassed_ThenReturnArgumentException(int[] actualArray)
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                DoubleLinkedList list = new DoubleLinkedList(actualArray);
+
+                int actual = list.FindMaxIndex();
+            });
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 0)]
+        [TestCase(new int[] { 8, 2, 3, 4, 5, 6, 1 }, 6)]
+        [TestCase(new int[] { 2, 2, 2 }, 0)]
+        [TestCase(new int[] { 1 }, 0)]
+        [TestCase(new int[] { 6, 5, 4, 3, 4, 5, 6 }, 3)]
+        public void FindMinIndex_WhenMethodCalled_ThenReturnMinIndex(int[] actualArray, int expected)
+        {
+            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+
+            int actual = list.FindMinIndex();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { })]
+        [TestCase(null)]
+        public void FindMinIndex_WhenNullOrListIsEmptyPassed_ThenReturnArgumentException(int[] actualArray)
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                DoubleLinkedList list = new DoubleLinkedList(actualArray);
+
+                int actual = list.FindMaxIndex();
+            });
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 8)]
+        [TestCase(new int[] { 8, 2, 3, 4, 5, 6, 7 }, 8)]
+        [TestCase(new int[] { 1, 2, 2 }, 2)]
+        [TestCase(new int[] { 1 }, 1)]
+        [TestCase(new int[] { 2, 3, 4, 6, 4, 5, 6 }, 6)]
+        public void FindMaxElement_WhenMethodCalled_ThenReturnMaxElement(int[] actualArray, int expected)
+        {
+            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+
+            int actual = list.FindMaxElement();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { })]
+        [TestCase(null)]
+        public void FindMaxElement_WhenNoElementsInCollection_ThenReturnArgumentException(int[] actualArray)
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                DoubleLinkedList list = new DoubleLinkedList(actualArray);
+
+                int actual = list.FindMaxElement();
+            });
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)]
+        [TestCase(new int[] { 8, 2, 3, 4, 5, 6, 1 }, 1)]
+        [TestCase(new int[] { 2, 2, 2 }, 2)]
+        [TestCase(new int[] { 1 }, 1)]
+        [TestCase(new int[] { 6, 5, 4, 3, 4, 5, 6 }, 3)]
+        public void FindMinElement_WhenMethodCalled_ThenReturnMinElement(int[] actualArray, int expected)
+        {
+            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+
+            int actual = list.FindMinElement();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { })]
+        [TestCase(null)]
+        public void FindMinElement_WhenNoElementsInCollection_ThenReturnArgumentException(int[] actualArray)
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                DoubleLinkedList list = new DoubleLinkedList(actualArray);
+
+                int actual = list.FindMinElement();
+            });
+        }
+
         [TestCase(new int[] { 7, 3, 2, 5, 1, 6, 2 }, new int[] { 1, 2, 2, 3, 5, 6, 7 })]
         [TestCase(new int[] { 2, 2, 2, 2, 2, 2, 2 }, new int[] { 2, 2, 2, 2, 2, 2, 2 })]
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 })]

@@ -433,6 +433,112 @@ namespace LibraryList
             }
         }
 
+
+        //// MaxI for Svyatoslav
+        //// FindMaxIndex for Maksim
+        public int FindMaxIndex()
+        {
+            if (Length != 0 || this is null)
+            {
+                DoubleNode current = _root;
+                int maxIndex = 0;
+                int maxValue = _root.Value;
+
+                for (int i = 1; i < Length; i++)
+                {
+                    if (maxValue < current.Next.Value)
+                    {
+                        maxValue = current.Next.Value;
+                        maxIndex = i;
+                    }
+
+                    current = current.Next;
+                }
+
+                return maxIndex;
+            }
+
+            throw new ArgumentException("List is null");
+        }
+
+        //// MinI for Svyatoslav
+        //// FindMinIndex for Maksim
+        public int FindMinIndex()
+        {
+            if (Length != 0 || this is null)
+            {
+                DoubleNode current = _root;
+                int minIndex = 0;
+                int minValue = _root.Value;
+
+                for (int i = 1; i < Length; i++)
+                {
+                    if (minValue > current.Next.Value)
+                    {
+                        minValue = current.Next.Value;
+                        minIndex = i;
+                    }
+
+                    current = current.Next;
+                }
+
+                return minIndex;
+            }
+
+            throw new ArgumentException("List is null");
+        }
+
+
+        // Max for Svyatoslav
+        // FindMaxElement for Maksim
+        public int FindMaxElement()
+        {
+            if (Length != 0 || this is null)
+            {
+                DoubleNode current = _root;
+                int maxValue = _root.Value;
+
+                for (int i = 1; i < Length; i++)
+                {
+                    if (maxValue < current.Next.Value)
+                    {
+                        maxValue = current.Next.Value;
+                    }
+
+                    current = current.Next;
+                }
+
+                return maxValue;
+            }
+
+            throw new ArgumentException("List is null");
+        }
+
+        //// Min for Svyatoslav
+        //// FindMinElement for Maksim
+        public int FindMinElement()
+        {
+            if (Length != 0 || this is null)
+            {
+                DoubleNode current = _root;
+                int minValue = _root.Value;
+
+                for (int i = 1; i < Length; i++)
+                {
+                    if (minValue > current.Next.Value)
+                    {
+                        minValue = current.Next.Value;
+                    }
+
+                    current = current.Next;
+                }
+
+                return minValue;
+            }
+
+            throw new ArgumentException("List is null");
+        }
+
         public void Sort(bool isDescending)
         {
             if (!(this is null))
