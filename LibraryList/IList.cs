@@ -1,4 +1,4 @@
-﻿
+
 namespace LibraryList
 {
     public interface IList
@@ -9,20 +9,25 @@ namespace LibraryList
 
         void AddLast(int value);
 
+
+        void AddLast(IList obj);
+
         void AddFirst(int value);
+        void AddFirst(IList obj);
+
 
         void AddByIndex(int index, int value);
         void AddByIndex(int index, IList obj);
 
         void RemoveLast();
-        void RemoveLast(int nElements);
+
+        void RemoveLast(int count);
 
         void RemoveFirst();
-        void RemoveFirst(int nElements);
+        void RemoveFirst(int count);
 
         void RemoveByIndex(int index);
-        void RemoveByIndex(int index, int nElements);
-
+        void RemoveByIndex(int index, int count);
         int GetIndexByValue(int value);
 
         void Reverse();
@@ -46,6 +51,6 @@ namespace LibraryList
         string ToString();
 
         bool Equals(object obj);
-
     }
 }
+    
