@@ -3,20 +3,21 @@ using System;
 
 namespace LibraryList.Test
 {
-   public abstract class BaseTest
+    public abstract class BaseTest
     {
         public abstract void Init(int[] actualArray, int[] expectedArray);
         public abstract void Init(int[] actualArray);
 
         protected IList _actual;
-        
+
         protected IList _expected;
 
-        [Test]
-        public void ToString_WhenMethodUsed_ThenReturnStringList()
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, "1 2 3 4 5 6")]
+        [TestCase(new int[] { }, "")]
+        public void ToString_WhenMethodUsed_ThenReturnStringList(int[] actualArray, string expected)
         {
-            Init(new int[] {1,2,3,4,5,6 });
-            Assert.AreEqual("1 2 3 4 5 6", _actual.ToString());
+            Init(actualArray);
+            Assert.AreEqual(expected, _actual.ToString());
         }
 
         [TestCase(new int[] {1 },-1)]
@@ -182,6 +183,7 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1, 2, 3 }, 0, new int[] { }, new int[] { 1, 2, 3 })]
         [TestCase(new int[] { 1, 2, 3 }, 2, new int[] { }, new int[] { 1, 2, 3 })]
         [TestCase(new int[] { }, 0, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 })]
+        [TestCase(new int[] {1,2,3,4,5,6,7,8,9,0,10,11,12,12 }, 10, new int[] { 1, 2 }, new int[] { 1, 2, 3, 4, 5, 6, 7, 8,9, 0,1,2, 10, 11, 12, 12 })]
         public void AddByIndex_WhenValidDataPassed_ThenAddByIndex(int[] actualArray, int index, int[] arrayForList, int[] expectedArray)
         {
             Init(actualArray, expectedArray);
@@ -227,11 +229,13 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1, 2, 3, 4 }, 2, new int[] { 1, 2, 4 })]
         [TestCase(new int[] { 1, 2, 3 }, 2, new int[] { 1, 2 })]
         [TestCase(new int[] { 1, 2 }, 1, new int[] { 1 })]
+        [TestCase(new int[] { 1, 2 }, 1, new int[] { 1 })]
         [TestCase(new int[] { 1 }, 0, new int[] { })]
         [TestCase(new int[] { }, 0, new int[] { })]
         public void RemoveByIndex_WhenIndexPassed_ThenRemoveByIndex(int[] actualArray, int index, int[] expectedArray)
         {
-            Init(actualArray, expectedArray); _actual.RemoveByIndex(index);
+            Init(actualArray, expectedArray);
+            _actual.RemoveByIndex(index);
 
             Assert.AreEqual(_expected, _actual);
         }
@@ -530,6 +534,7 @@ namespace LibraryList.Test
 
             Assert.AreEqual(_expected, _actual); ;
         }
+
 
 
     }

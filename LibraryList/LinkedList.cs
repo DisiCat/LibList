@@ -240,22 +240,15 @@ namespace LibraryList
             {
                 if (index != 0)
                 {
-                    if (Length != 1)
+
+                    Node current = GetNodeByIndex(index - 1);
+
+                    current.Next = current.Next.Next;
+
+                    if (current.Next is null)
                     {
-                        Node current = GetNodeByIndex(index - 1);
-
-                        current.Next = current.Next.Next;
-
-                        if(current.Next is null)
-                        {
                         _tail = current;
 
-                        }
-                    }
-                    else
-                    {
-                        _root = null;
-                        _tail = null;
                     }
                     --Length;
                 }
@@ -612,21 +605,16 @@ namespace LibraryList
         }
         public override string ToString()
         {
-            if (Length != 0)
-            {
-                Node current = _root;
-                StringBuilder stringBulder = new StringBuilder($"{current.Value} ");
+            Node current = _root;
+            StringBuilder stringBulder = new StringBuilder();
 
-                while (!(current.Next is null))
-                {
-                    current = current.Next;
-                    stringBulder.Append($"{current.Value} ");
-                }
-                
-                return stringBulder.ToString().Trim();
+            while (!(current is null))
+            {
+                stringBulder.Append($"{current.Value} ");
+                current = current.Next;
             }
 
-            return String.Empty;
+            return stringBulder.ToString().Trim();
         }
 
         public override bool Equals(object obj)

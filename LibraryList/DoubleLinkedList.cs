@@ -263,25 +263,17 @@ namespace LibraryList
             {
                 if (index != 0)
                 {
-                    if (Length != 1)
+                    DoubleNode current = GetNodeByIndex(index - 1);
+
+                    current.Next = current.Next.Next;
+
+                    if (current.Next is null)
                     {
-                        DoubleNode current = GetNodeByIndex(index - 1);
-
-                        current.Next = current.Next.Next;
-
-                        if (current.Next is null)
-                        {
-                            _tail = current;
-                        }
-                        else
-                        {
-                            current.Next.Previous = current;
-                        }
+                        _tail = current;
                     }
                     else
                     {
-                        _root = null;
-                        _tail = null;
+                        current.Next.Previous = current;
                     }
                     --Length;
                 }
@@ -304,9 +296,16 @@ namespace LibraryList
                 {
                     if (Length - count > 0)
                     {
-                        Length -= count;
-                        _tail = GetNodeByIndex(Length - 1);
-                        _tail.Next = null;
+                        if (count != 1)
+                        {
+                            Length -= count;
+                            _tail = GetNodeByIndex(Length - 1);
+                            _tail.Next = null;
+                        }
+                        else
+                        {
+                            RemoveLast();
+                        }
                     }
                     else
                     {
@@ -639,9 +638,7 @@ namespace LibraryList
 
         public override string ToString()
         {
-            if (Length != 0)
-            {
-                DoubleNode current = _root;
+           DoubleNode current = _root;
                 StringBuilder stringBulder = new StringBuilder();
 
                 while (!(current is null))
@@ -651,10 +648,8 @@ namespace LibraryList
                 }
 
                 return stringBulder.ToString().Trim();
-            }
-
-            return String.Empty;
-        }
+            
+         }
 
         public override bool Equals(object obj)
         {
@@ -702,13 +697,13 @@ namespace LibraryList
 
         }
 
-        private DoubleNode GetNodeByIndex(int index)
+        private DoubleNode GetNodeByIndex(int index) // 1 2 3 
         {
             if (index >= 0 && index < Length)
             {
                 DoubleNode current;
 
-                if (index <= Length - 1 / 2)
+                if (index <= (Length - 1) / 2)
                 {
                     current = _root;
 
@@ -721,7 +716,7 @@ namespace LibraryList
                 {
                     current = _tail;
 
-                    for (int i = Length - 2; i <= index; i--)
+                    for (int i = Length - 1; i > index; i--)
                     {
                         current = current.Previous;
                     }
