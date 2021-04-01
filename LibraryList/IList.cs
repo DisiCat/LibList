@@ -9,15 +9,18 @@ namespace LibraryList
 
         void AddLast(int value);
 
+
         void AddLast(IList obj);
 
         void AddFirst(int value);
         void AddFirst(IList obj);
 
+
         void AddByIndex(int index, int value);
         void AddByIndex(int index, IList obj);
 
         void RemoveLast();
+
         void RemoveLast(int count);
 
         void RemoveFirst();
@@ -25,7 +28,6 @@ namespace LibraryList
 
         void RemoveByIndex(int index);
         void RemoveByIndex(int index, int count);
-
         int GetIndexByValue(int value);
 
         void Reverse();
@@ -49,6 +51,6 @@ namespace LibraryList
         string ToString();
 
         bool Equals(object obj);
-
     }
 }
+    
