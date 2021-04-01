@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace LibraryList
 {
-    interface IList
+    public interface IList
     {
         int Length { get; }
 
@@ -15,12 +12,16 @@ namespace LibraryList
         void AddFirst(int value);
 
         void AddByIndex(int index, int value);
+        void AddByIndex(int index, IList obj);
 
         void RemoveLast();
+        void RemoveLast(int nElements);
 
         void RemoveFirst();
+        void RemoveFirst(int nElements);
 
-        void RemoveByIndex(int index, int count );
+        void RemoveByIndex(int index);
+        void RemoveByIndex(int index, int nElements);
 
         int GetIndexByValue(int value);
 
@@ -38,6 +39,13 @@ namespace LibraryList
 
         void RemoveAllByValue(int value);
 
-        void Sort(bool isDescending);
+        void Sort(bool isDecending);
+
+        int[] ToArray();
+
+        string ToString();
+
+        bool Equals(object obj);
+
     }
 }
