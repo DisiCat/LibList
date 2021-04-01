@@ -12,6 +12,68 @@ namespace LibraryList.Test
         
         protected IList _expected;
 
+        [Test]
+        public void ToString_WhenMethodUsed_ThenReturnStringList()
+        {
+            Init(new int[] {1,2,3,4,5,6 });
+            Assert.AreEqual("1 2 3 4 5 6", _actual.ToString());
+        }
+
+        [TestCase(new int[] {1 },-1)]
+        [TestCase(new int[] {1,2 },6)]
+        public void IndexerSet_WhenIncorrectIndexPassed_ThenReturnIndexOutOfRangeException(int[] actualArray, int value)
+        {
+                    Init(actualArray);
+
+            Assert.Throws<IndexOutOfRangeException>(() =>
+            {
+                 _actual[value] = 11;
+            });
+        }
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, new int[] { 1, 2, 3, 4, 5, 6 })]
+        [TestCase(new int[] { }, new int[] { })]
+        public void ToArray_WhenMethodUsed_ThenReturnArray(int[] actualArray, int[] expectedArray)
+        {
+            Init(actualArray);
+
+            Assert.AreEqual(expectedArray, _actual.ToArray());
+        }
+
+        [TestCase(new int[] { 1 }, -1)]
+        [TestCase(new int[] { 1, 2 }, 6)]
+        public void IndexerGet_WhenIncorrectIndexPassed_ThenReturnIndexOutOfRangeException(int[] actualArray, int index)
+        {
+            Init(actualArray);
+
+            Assert.Throws<IndexOutOfRangeException>(() =>
+            {
+              int value = _actual[index];
+            });
+        }
+
+        [TestCase(new int[] { 1 }, 0, 1)]
+        [TestCase(new int[] { 1, 2 }, 1, 2)]
+        public void IndexerGet_WhenIncorrectIndexPassed_ThenGetValue(int[] actualArray, int index, int expected)
+        {
+            Init(actualArray);
+
+
+            int actual = _actual[index];
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1 }, -1, -1)]
+        [TestCase(new int[] { 1, 2 }, 6, 6)]
+        public void IndexerSet_WhenIndexPassed_ThenSetValue(int[] actualArray, int value , int expected)
+        {
+            Init(actualArray);
+
+            _actual[0] = value;
+
+            Assert.AreEqual(expected, _actual[0]);
+        }
+
         [TestCase(new int[] { 1, 2, 3 }, 4, new int[] { 1, 2, 3, 4 })]
         [TestCase(new int[] { 1 }, 4, new int[] { 1, 4 })]
         [TestCase(new int[] { }, 4, new int[] { 4 })]
@@ -194,6 +256,7 @@ namespace LibraryList.Test
         public void RemoveLast_WhenCountPassed_ThenRemoveLast(int[] actualArray, int count, int[] expectedArray)
         {
             Init(actualArray, expectedArray);
+
             _actual.RemoveLast(count);
 
             Assert.AreEqual(_expected, _actual);

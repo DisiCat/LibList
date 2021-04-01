@@ -52,12 +52,19 @@ namespace LibraryList
         {
             get
             {
-                return _array[index];
+                if (index < Length && index >= 0)
+                {
+                    return _array[index];
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException(" Index out of range");
+                }
             }
 
             set
             {
-                if (!(index >= Length || index <= 0))
+                if (index < Length && index >= 0)
                 {
                     _array[index] = value;
                 }

@@ -14,11 +14,25 @@ namespace LibraryList
         {
             get
             {
-                return GetNodeByIndex(index).Value;
+                if (index >= 0 && index < Length)
+                {
+                    return GetNodeByIndex(index).Value;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException("incorect index");
+                }
             }
             set
             {
-                GetNodeByIndex(index).Value = value;
+                if (index >= 0 && index < Length)
+                {
+                    GetNodeByIndex(index).Value = value;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException("incorect index");
+                }
             }
         }
 
@@ -288,7 +302,7 @@ namespace LibraryList
             {
                 if (Length != 0 && count != 0)
                 {
-                    if (Length - count >= 0)
+                    if (Length - count > 0)
                     {
                         Length -= count;
                         _tail = GetNodeByIndex(Length - 1);
@@ -314,7 +328,7 @@ namespace LibraryList
             {
                 if (Length != 0 && count != 0)
                 {
-                    if (Length - count >= 0)
+                    if (Length - count > 0)
                     {
                         _root = GetNodeByIndex(count);
                         Length -= count;
@@ -690,7 +704,7 @@ namespace LibraryList
 
         private DoubleNode GetNodeByIndex(int index)
         {
-            if (index >= 0 || index < Length)
+            if (index >= 0 && index < Length)
             {
                 DoubleNode current;
 
