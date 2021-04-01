@@ -3,7 +3,7 @@ using System.Text;
 
 namespace LibraryList
 {
-    public class ArrayList : IList
+    public class ArrayList  : IList
     {
         private const int indexZero = 0;
 
@@ -115,25 +115,35 @@ namespace LibraryList
             }
         }
 
-        public void AddByIndex(int index, ArrayList list)
+        public void AddByIndex(int index, IList obj)
         {
-            if ((index == 0 && Length == 0) || (index < Length && index >= 0))
+            if (!(obj is null))
             {
-                int oldLength = Length;
-                Length += list.Length;
 
-                Resize(oldLength);
-
-                ShiftRight(index + list.Length - 1, list.Length);
-
-                for (int i = 0; i < list.Length; ++i)
+                if ((index == 0 && Length == 0) || (index < Length && index >= 0))
                 {
-                    _array[i + index] = list[i];
+                    ArrayList list = ArrayList.Create((obj.ToArray()));
+
+                    int oldLength = Length;
+                    Length += list.Length;
+
+                    Resize(oldLength);
+
+                    ShiftRight(index + list.Length - 1, list.Length);
+
+                    for (int i = 0; i < list.Length; ++i)
+                    {
+                        _array[i + index] = list[i];
+                    }
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException("Index Out Of Randge ");
                 }
             }
             else
             {
-                throw new IndexOutOfRangeException("Index Out Of Randge ");
+                throw new ArgumentNullException(" obj is null");
             }
         }
 
@@ -346,7 +356,7 @@ namespace LibraryList
                 j = i;
                 temp = _array[i];
 
-                while ((j > 0 && temp < _array[j - 1] && isdecending) || j > 0 && temp > _array[j - 1] && !isdecending)
+                while ((j > 0 && temp < _array[j - 1] && isDecending) || j > 0 && temp > _array[j - 1] && !isDecending)
                 {
                     _array[j] = _array[j - 1];
                     j--;
@@ -354,6 +364,17 @@ namespace LibraryList
 
                 _array[j] = temp;
             }
+        }
+
+        public int[] ToArray()
+        {
+            int[] arr = new int[Length];
+
+            for (int i = 0; i < Length; i++)
+            {
+                arr[i] = _array[i];
+            }
+            return arr;
         }
 
         public override string ToString()
@@ -424,6 +445,7 @@ namespace LibraryList
                 _array[i] = _array[i + nElements];
             }
         }
+
     }
 }
 
