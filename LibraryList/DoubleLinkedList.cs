@@ -652,7 +652,7 @@ namespace LibraryList
 
                     while (!(currentThis is null))
                     {
-                        if (currentThis.Value != currentList.Value && currentPrevThis.Value != currentPrevList.Value)
+                        if (currentThis.Value != currentList.Value || currentPrevThis.Value != currentPrevList.Value)
                         {
                             isEqual = false;
                             break;

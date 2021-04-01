@@ -43,7 +43,7 @@ namespace LibraryList.Test
         {
             Init(actualArray);
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 _actual.AddLast(null);
             });
@@ -78,7 +78,7 @@ namespace LibraryList.Test
         public void AddFirst_WhenNullPassed_ThenReturnArgumentException(int[] actualArray)
         {
             Init(actualArray);
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 _actual.AddFirst(null);
             });
@@ -259,7 +259,7 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1, 2, 3 }, 0, -1)]
         public void RemoveByIndex_WhenIndexOrcountIncorrectPassed_ThenReturnArgumentException(int[] actualArray, int index, int count)
         {
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<Exception>(() =>
             {
                 Init(actualArray);
                 _actual.RemoveByIndex(index, count);

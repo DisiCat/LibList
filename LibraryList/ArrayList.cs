@@ -75,16 +75,24 @@ namespace LibraryList
             _array[Length++] = value;
         }
 
-        public void AddLast(ArrayList list)
+        public void AddLast(IList obj)
         {
-            int oldLength = Length;
-            Length += list.Length;
-
-            Resize(oldLength);
-
-            for (int i = 0; i < list.Length; ++i)
+            if (!(obj is null))
             {
-                _array[oldLength + i] = list[i];
+                ArrayList list = ArrayList.Create(obj.ToArray());
+                int oldLength = Length;
+                Length += list.Length;
+
+                Resize(oldLength);
+
+                for (int i = 0; i < list.Length; ++i)
+                {
+                    _array[oldLength + i] = list[i];
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException("obj is null");
             }
         }
 
@@ -93,9 +101,15 @@ namespace LibraryList
             AddByIndex(indexZero, value);
         }
 
-        public void AddFirst(ArrayList list)
+        public void AddFirst(IList obj)
         {
-            AddByIndex(indexZero, list);
+            if(!(obj is null))
+            {
+            AddByIndex(indexZero, obj);
+            } else
+            {
+                throw new ArgumentNullException("obj is null");
+            }
         }
 
         public void AddByIndex(int index, int value)

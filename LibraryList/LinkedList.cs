@@ -81,10 +81,11 @@ namespace LibraryList
             ++Length;
         }
 
-        public void AddLast(LinkedList list)
+        public void AddLast(IList obj)
         {
-            if (!(list is null))
+            if (!(obj is null))
             {
+                LinkedList list = LinkedList.Create(obj.ToArray());
                 for (int i = 0; i < list.Length; i++)
                 {
                     AddLast(list[i]);
@@ -111,10 +112,12 @@ namespace LibraryList
             Length++;
         }
 
-        public void AddFirst(LinkedList list)
+        public void AddFirst(IList obj)
         {
-            if (!(list is null))
+            if (!(obj is null))
             {
+                LinkedList list = LinkedList.Create(obj.ToArray());
+             
                 for (int i = list.Length - 1; i >= 0; --i)
                 {
                     AddFirst(list[i]);
