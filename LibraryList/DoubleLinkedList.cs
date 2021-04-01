@@ -97,7 +97,7 @@ namespace LibraryList
             }
             else
             {
-                throw new ArgumentException(" List is null");
+                throw new ArgumentNullException(" List is null");
             }
         }
 
@@ -137,7 +137,7 @@ namespace LibraryList
             }
             else
             {
-                throw new ArgumentException(" List is null");
+                throw new ArgumentNullException(" List is null");
             }
         }
 
@@ -563,7 +563,7 @@ namespace LibraryList
                     DoubleNode node = _root;
                     _root = _root.Next;
 
-                    if (new_root == null || (node.Value > new_root.Value && isDescending) || (node.Value < new_root.Value && !isDescending))
+                    if (new_root == null || (node.Value > new_root.Value && !isDescending) || (node.Value < new_root.Value && isDescending))
                     {
                         node.Next = new_root;
                         node.Previous = null;
@@ -583,7 +583,7 @@ namespace LibraryList
                     {
                         DoubleNode current = new_root;
 
-                        while ((current.Next != null && !(node.Value > current.Next.Value) && isDescending) || (current.Next != null && !(node.Value < current.Next.Value) && !isDescending))
+                        while ((current.Next != null && !(node.Value > current.Next.Value) && !isDescending) || (current.Next != null && !(node.Value < current.Next.Value) && isDescending))
                         {
                             current = current.Next;
                         }
