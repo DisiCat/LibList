@@ -1,4 +1,4 @@
-﻿
+
 namespace LibraryList
 {
     public interface IList
