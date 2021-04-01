@@ -3,18 +3,24 @@ using System;
 
 namespace LibraryList.Test
 {
-    class DoubleLinkedListTests
+   public abstract class BaseTest
     {
+        public abstract void Init(int[] actualArray, int[] expectedArray);
+        public abstract void Init(int[] actualArray);
+
+        protected IList _actual;
+        
+        protected IList _expected;
+
         [TestCase(new int[] { 1, 2, 3 }, 4, new int[] { 1, 2, 3, 4 })]
         [TestCase(new int[] { 1 }, 4, new int[] { 1, 4 })]
         [TestCase(new int[] { }, 4, new int[] { 4 })]
         public void AddLast_WhenValuePassed_ThenAddLast(int[] actualArray, int value, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+            _actual.AddLast(value);
 
-            actual.AddLast(value);
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1 }, new int[] { 4, 5, 6 }, new int[] { 1, 4, 5, 6 })]
@@ -24,21 +30,22 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, new int[] { }, new int[] { })]
         public void AddLast_WhenListPassed_ThenAddListInLast(int[] actualArray, int[] arrayForList, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
 
-            actual.AddLast(new DoubleLinkedList(arrayForList));
+            _actual.AddLast(DoubleLinkedList.Create(arrayForList));
 
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { })]
         public void AddLast_WhenNullPassed_ThenReturnArgumentException(int[] actualArray)
         {
+            Init(actualArray);
+
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
-                actual.AddLast(null);
+                _actual.AddLast(null);
             });
         }
 
@@ -47,11 +54,10 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1 }, 0, new int[] { 0, 1 })]
         public void AddFirst_WhenValuePassed_ThenAddFirst(int[] actualArray, int value, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+            _actual.AddFirst(value);
 
-            actual.AddFirst(value);
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 4, 5, 6, 1, 2, 3 })]
@@ -61,21 +67,20 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1 }, new int[] { 0 }, new int[] { 0, 1 })]
         public void AddFirst_WhenListPassed_ThenAddListInFirst(int[] actualArray, int[] arrayForList, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+          
+            _actual.AddFirst(DoubleLinkedList.Create(arrayForList));
 
-            actual.AddFirst(new DoubleLinkedList(arrayForList));
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { })]
         public void AddFirst_WhenNullPassed_ThenReturnArgumentException(int[] actualArray)
         {
+            Init(actualArray);
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
-                actual.AddFirst(null);
+                _actual.AddFirst(null);
             });
         }
 
@@ -87,22 +92,20 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, 0, 10, new int[] { 10, 1, 2, 3, 4, 5, 6 })]
         public void AddByIndex_WhenValueAndIndexPassed_ThenAddByIndex(int[] actualArray, int index, int value, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray,expectedArray);
+            _actual.AddByIndex(index, value);
 
-            actual.AddByIndex(index, value);
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1, 2, 3 }, -1)]
         [TestCase(new int[] { 1, 2, 3 }, 3)]
         public void AddByIndex_WhenIncorrectIndexPassed_ThenReturnIndexOutOfRange(int[] actualArray, int index)
         {
+            Init(actualArray);
             Assert.Throws<IndexOutOfRangeException>(() =>
             {
-                DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
-                actual.AddByIndex(index, 0);
+                _actual.AddByIndex(index, 0);
 
             });
         }
@@ -119,11 +122,11 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, 0, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 })]
         public void AddByIndex_WhenValidDataPassed_ThenAddByIndex(int[] actualArray, int index, int[] arrayForList, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
 
-            actual.AddByIndex(index, new DoubleLinkedList(arrayForList));
+           _actual.AddByIndex(index, DoubleLinkedList.Create(arrayForList));
 
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1, 2, 3 }, -1, new int[] { 4, 5, 6 })]
@@ -132,9 +135,7 @@ namespace LibraryList.Test
         {
             Assert.Throws<IndexOutOfRangeException>(() =>
             {
-                DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
-                actual.AddByIndex(index, new DoubleLinkedList(arrayForList));
+                _actual.AddByIndex(index, DoubleLinkedList.Create(arrayForList));
             });
         }
 
@@ -143,11 +144,10 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1 }, new int[] { })]
         public void RemoveLast_WhenMethodCalled_ThenRemoveLast(int[] actualArray, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+            _actual.RemoveLast();
 
-            actual.RemoveLast();
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 2, 3 })]
@@ -155,26 +155,23 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, new int[] { })]
         public void RemoveFirst_WhenMethodCalled_ThenRemoveFirst(int[] actualArray, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+            _actual.RemoveFirst();
 
-            actual.RemoveFirst();
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1, 2, 3 }, 0, new int[] { 2, 3 })]
-        [TestCase(new int[] { 1, 2, 3,4 }, 2, new int[] {1, 2, 4})]
+        [TestCase(new int[] { 1, 2, 3, 4 }, 2, new int[] { 1, 2, 4 })]
         [TestCase(new int[] { 1, 2, 3 }, 2, new int[] { 1, 2 })]
         [TestCase(new int[] { 1, 2 }, 1, new int[] { 1 })]
         [TestCase(new int[] { 1 }, 0, new int[] { })]
         [TestCase(new int[] { }, 0, new int[] { })]
         public void RemoveByIndex_WhenIndexPassed_ThenRemoveByIndex(int[] actualArray, int index, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray); _actual.RemoveByIndex(index);
 
-            actual.RemoveByIndex(index);
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1, 2, 3 }, -1)]
@@ -183,9 +180,8 @@ namespace LibraryList.Test
         {
             Assert.Throws<IndexOutOfRangeException>(() =>
             {
-                DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
-                actual.RemoveByIndex(index);
+                Init(actualArray);
+                _actual.RemoveByIndex(index);
             });
         }
 
@@ -197,11 +193,10 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, 0, new int[] { })]
         public void RemoveLast_WhenCountPassed_ThenRemoveLast(int[] actualArray, int count, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+            _actual.RemoveLast(count);
 
-            actual.RemoveLast(count);
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { }, -1)]
@@ -209,9 +204,8 @@ namespace LibraryList.Test
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
-                actual.RemoveLast(count);
+                Init(actualArray);
+                _actual.RemoveLast(count);
 
             });
         }
@@ -224,11 +218,10 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, 0, new int[] { })]
         public void RemoveFirst_WheCountPassed_ThenRemoveFirst(int[] actualArray, int count, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+            _actual.RemoveFirst(count);
 
-            actual.RemoveFirst(count);
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { }, -1)]
@@ -236,9 +229,8 @@ namespace LibraryList.Test
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
-                actual.RemoveFirst(count);
+                Init(actualArray);
+                _actual.RemoveFirst(count);
 
             });
         }
@@ -255,11 +247,10 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1 }, 0, 1, new int[] { })]
         public void RemoveByIndex_WhenValidDataPassed_ThenRemoveByIndex(int[] actualArray, int index, int count, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+            _actual.RemoveByIndex(index, count);
 
-            actual.RemoveByIndex(index, count);
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { }, 0, 1)]
@@ -270,9 +261,8 @@ namespace LibraryList.Test
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
-                actual.RemoveByIndex(index, count);
+                Init(actualArray);
+                _actual.RemoveByIndex(index, count);
             });
         }
 
@@ -284,11 +274,10 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, new int[] { })]
         public void Reverse_WhenMethodCalled_ThenReverseList(int[] actualArray, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
+            _actual.Reverse();
 
-            actual.Reverse();
-
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [Test]
@@ -308,9 +297,9 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1 }, 0)]
         public void FindMaxIndex_WhenMethodCalled_ThenReturnMaxIndex(int[] actualArray, int expected)
         {
-            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+            Init(actualArray);
 
-            int actual = list.FindMaxIndex();
+            int actual = _actual.FindMaxIndex();
 
             Assert.AreEqual(expected, actual);
         }
@@ -321,9 +310,9 @@ namespace LibraryList.Test
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList list = new DoubleLinkedList(actualArray);
+                Init(actualArray);
 
-                int actual = list.FindMaxIndex();
+                int actual = _actual.FindMaxIndex();
             });
         }
 
@@ -334,9 +323,9 @@ namespace LibraryList.Test
         [TestCase(new int[] { 6, 5, 4, 3, 4, 5, 6 }, 3)]
         public void FindMinIndex_WhenMethodCalled_ThenReturnMinIndex(int[] actualArray, int expected)
         {
-            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+            Init(actualArray);
 
-            int actual = list.FindMinIndex();
+            int actual = _actual.FindMinIndex();
 
             Assert.AreEqual(expected, actual);
         }
@@ -347,9 +336,9 @@ namespace LibraryList.Test
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList list = new DoubleLinkedList(actualArray);
+                Init(actualArray);
 
-                int actual = list.FindMaxIndex();
+                int actual = _actual.FindMaxIndex();
             });
         }
 
@@ -360,9 +349,9 @@ namespace LibraryList.Test
         [TestCase(new int[] { 2, 3, 4, 6, 4, 5, 6 }, 6)]
         public void FindMaxElement_WhenMethodCalled_ThenReturnMaxElement(int[] actualArray, int expected)
         {
-            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+            Init(actualArray);
 
-            int actual = list.FindMaxElement();
+            int actual = _actual.FindMaxElement();
 
             Assert.AreEqual(expected, actual);
         }
@@ -373,9 +362,9 @@ namespace LibraryList.Test
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList list = new DoubleLinkedList(actualArray);
+                Init(actualArray);
 
-                int actual = list.FindMaxElement();
+                int actual = _actual.FindMaxElement();
             });
         }
 
@@ -386,9 +375,9 @@ namespace LibraryList.Test
         [TestCase(new int[] { 6, 5, 4, 3, 4, 5, 6 }, 3)]
         public void FindMinElement_WhenMethodCalled_ThenReturnMinElement(int[] actualArray, int expected)
         {
-            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+            Init(actualArray);
 
-            int actual = list.FindMinElement();
+            int actual = _actual.FindMinElement();
 
             Assert.AreEqual(expected, actual);
         }
@@ -399,9 +388,9 @@ namespace LibraryList.Test
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                DoubleLinkedList list = new DoubleLinkedList(actualArray);
+                Init(actualArray);
 
-                int actual = list.FindMinElement();
+                int actual = _actual.FindMinElement();
             });
         }
 
@@ -416,13 +405,13 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, new int[] { })]
         public void Sort_WhenIsDescendingFalse_ThenSortAscending(int[] actualArray, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
 
             bool isDescending = false;
 
-            actual.Sort(isDescending);
+            _actual.Sort(isDescending);
 
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 7, 3, 2, 5, 1, 6, 2 }, new int[] { 7, 6, 5, 3, 2, 2, 1 })]
@@ -436,13 +425,12 @@ namespace LibraryList.Test
         [TestCase(new int[] { }, new int[] { })]
         public void Sort_WhenIsDescendingTrue_ThenSortDescending(int[] actualArray, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
-
+            Init(actualArray, expectedArray);
             bool isDescending = true;
 
-            actual.Sort(isDescending);
+            _actual.Sort(isDescending);
 
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1, new int[] { 2, 3, 4, 5, 6, 7, 8 })]
@@ -451,11 +439,11 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1, 1, 3, 4, 5, 6, 8, 8 }, 8, new int[] { 1, 1, 3, 4, 5, 6, 8 })]
         public void RemoveByValue_WhenValuePassed_ThenRemoveValue(int[] actualArray, int value, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
 
-            actual.RemoveByValue(value);
+            _actual.RemoveByValue(value);
 
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual);
+            Assert.AreEqual(_expected, _actual);
         }
 
         [TestCase(new int[] { 1, 2, 1, 4, 1, 6, 7, 8 }, 1, new int[] { 2, 4, 6, 7, 8 })]
@@ -464,12 +452,13 @@ namespace LibraryList.Test
         [TestCase(new int[] { 8, 8, 8 }, 8, new int[] { })]
         public void RemoveAllByValue_WhenValue_TnenRemoveAllValue(int[] actualArray, int value, int[] expectedArray)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(actualArray);
+            Init(actualArray, expectedArray);
 
-            actual.RemoveAllByValue(value);
+            _actual.RemoveAllByValue(value);
 
-            Assert.AreEqual(new DoubleLinkedList(expectedArray), actual); ;
+            Assert.AreEqual(_expected, _actual); ;
         }
+
+
     }
 }
-

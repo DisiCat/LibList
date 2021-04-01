@@ -81,10 +81,12 @@ namespace LibraryList
             ++Length;
         }
 
-        public void AddLast(DoubleLinkedList list)
+        public void AddLast(IList obj)
         {
-            if (!(list is null))
+            if (!(obj is null))
             {
+                DoubleLinkedList list = DoubleLinkedList.Create(obj.ToArray());
+
                 DoubleNode current = list._root;
 
                 while (!(current is null))
@@ -119,10 +121,12 @@ namespace LibraryList
             Length++;
         }
 
-        public void AddFirst(DoubleLinkedList list)
+        public void AddFirst(IList obj)
         {
-            if (!(list is null))
+            if (!(obj is null))
             {
+                DoubleLinkedList list = DoubleLinkedList.Create(obj.ToArray());
+
                 DoubleNode current = list._tail;
 
                 while (!(current is null))
@@ -168,41 +172,50 @@ namespace LibraryList
             }
         }
 
-        public void AddByIndex(int index, DoubleLinkedList newList)
+        public void AddByIndex(int index, IList obj)
         {
-            if ((index == Length && Length == 0) || (index >= 0 && index < Length))
+            if (!(obj is null))
             {
-                if (index != 0)
+                if ((index == Length && Length == 0) || (index >= 0 && index < Length))
                 {
-                    if (newList.Length != 0)
+                    DoubleLinkedList newList = DoubleLinkedList.Create(obj.ToArray());
+
+                    if (index != 0)
                     {
-                        DoubleNode current = GetNodeByIndex(index);
-                        DoubleNode NewList = newList._root;
-
-                        for (int i = 0; i < newList.Length; i++)
+                        if (newList.Length != 0)
                         {
-                            DoubleNode currentNewList = new DoubleNode(NewList.Value);
+                            DoubleNode current = GetNodeByIndex(index);
+                            DoubleNode NewList = newList._root;
 
-                            InsertNode(currentNewList, current);
+                            for (int i = 0; i < newList.Length; i++)
+                            {
+                                DoubleNode currentNewList = new DoubleNode(NewList.Value);
 
-                            NewList = NewList.Next;
-                            ++Length;
+                                InsertNode(currentNewList, current);
 
-                            //currentNewList.Next = current;
-                            //currentNewList.Previous = current.Previous;
-                            //current.Previous.Next = currentNewList;
-                            //current.Previous = currentNewList;
+                                NewList = NewList.Next;
+                                ++Length;
+
+                                //currentNewList.Next = current;
+                                //currentNewList.Previous = current.Previous;
+                                //current.Previous.Next = currentNewList;
+                                //current.Previous = currentNewList;
+                            }
                         }
+                    }
+                    else
+                    {
+                        AddFirst(newList);
                     }
                 }
                 else
                 {
-                    AddFirst(newList);
+                    throw new IndexOutOfRangeException();
                 }
             }
             else
             {
-                throw new IndexOutOfRangeException();
+                throw new ArgumentNullException("obj is null");
             }
         }
 
@@ -586,6 +599,21 @@ namespace LibraryList
 
                 _root = new_root;
             }
+        }
+
+        public int[] ToArray()
+        {
+            int[] arr = new int[Length];
+            int count = 0;
+            DoubleNode current = _root;
+            while (!(current is null))
+            {
+                arr[count] = current.Value;
+                ++count;
+                current = current.Next;
+            }
+
+            return arr;
         }
 
         public override string ToString()
