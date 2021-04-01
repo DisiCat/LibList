@@ -335,7 +335,10 @@ namespace LibraryList
 
         public void RemoveByIndex(int index, int count)
         {
-            if ((index >= 0 && index < Length) && count >= 0)
+            if( count >= 0)
+            {
+
+            if (index >= 0 && index < Length)
             {
                 if (Length != 0 || count != 0)
                 {
@@ -365,6 +368,10 @@ namespace LibraryList
                 }
             }
             else
+            {
+                throw new IndexOutOfRangeException("Incorect index");
+            }
+            }else
             {
                 throw new ArgumentException("Wrong arguments");
             }

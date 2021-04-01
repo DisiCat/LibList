@@ -312,32 +312,40 @@ namespace LibraryList
 
         public void RemoveByIndex(int index, int count)
         {
-            if ((index >= 0 && index < Length) && count >= 0)
+            if (count >= 0)
             {
-                if (Length != 0 || count != 0)
-                {
-                    if (index != 0)
-                    {
-                        if (Length - index - count > 0)
-                        {
-                            Node sectionStart = GetNodeByIndex(index - 1);
-                            Node sectionEnd = GetNodeByIndex(index + count);
 
-                            sectionStart.Next = sectionEnd;
-                            Length -= count;
+                if (index >= 0 && index < Length)
+                {
+                    if (Length != 0 || count != 0)
+                    {
+                        if (index != 0)
+                        {
+                            if (Length - index - count > 0)
+                            {
+                                Node sectionStart = GetNodeByIndex(index - 1);
+                                Node sectionEnd = GetNodeByIndex(index + count);
+
+                                sectionStart.Next = sectionEnd;
+                                Length -= count;
+                            }
+                            else
+                            {
+                                Node sectionStart = GetNodeByIndex(index - 1);
+                                sectionStart.Next = null;
+                                _tail = sectionStart;
+                                Length = index;
+                            }
                         }
                         else
                         {
-                            Node sectionStart = GetNodeByIndex(index - 1);
-                            sectionStart.Next = null;
-                            _tail = sectionStart;
-                            Length = index;
+                            RemoveFirst(count);
                         }
                     }
-                    else
-                    {
-                        RemoveFirst(count);
-                    }
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException("incotrect index");
                 }
             }
             else

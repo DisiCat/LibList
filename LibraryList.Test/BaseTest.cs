@@ -249,17 +249,26 @@ namespace LibraryList.Test
         {
             Init(actualArray, expectedArray);
             _actual.RemoveByIndex(index, count);
-
             Assert.AreEqual(_expected, _actual);
         }
 
-        [TestCase(new int[] { }, 0, 1)]
-        [TestCase(new int[] { 1, 2, 3 }, -1, 0)]
-        [TestCase(new int[] { 1, 2, 3 }, -1, 0)]
+
         [TestCase(new int[] { 1, 2, 3 }, 0, -1)]
         public void RemoveByIndex_WhenIndexOrcountIncorrectPassed_ThenReturnArgumentException(int[] actualArray, int index, int count)
         {
-            Assert.Throws<Exception>(() =>
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Init(actualArray);
+                _actual.RemoveByIndex(index, count);
+            });
+        }
+
+
+        [TestCase(new int[] { 1, 2, 3 }, -1, 0)]
+        [TestCase(new int[] { 1, 2, 3 }, 6, 0)]
+        public void RemoveByIndex_WhenIndexOrcountIncorrectPassed_ThenReturnIndexOutOfRangeException(int[] actualArray, int index, int count)
+        {
+            Assert.Throws<IndexOutOfRangeException>(() =>
             {
                 Init(actualArray);
                 _actual.RemoveByIndex(index, count);
@@ -407,7 +416,7 @@ namespace LibraryList.Test
         {
             Init(actualArray, expectedArray);
 
-            bool isDescending = false;
+            bool isDescending = true;
 
             _actual.Sort(isDescending);
 
@@ -426,7 +435,7 @@ namespace LibraryList.Test
         public void Sort_WhenIsDescendingTrue_ThenSortDescending(int[] actualArray, int[] expectedArray)
         {
             Init(actualArray, expectedArray);
-            bool isDescending = true;
+            bool isDescending = false;
 
             _actual.Sort(isDescending);
 
