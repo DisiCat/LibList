@@ -56,20 +56,20 @@ namespace LibraryList
 
         private LinkedList(int[] values)
         {
-                Length = 0;
+            Length = 0;
 
-                if (values.Length != 0)
+            if (values.Length != 0)
+            {
+                for (int i = 0; i < values.Length; ++i)
                 {
-                    for (int i = 0; i < values.Length; ++i)
-                    {
-                        AddLast(values[i]);
-                    }
+                    AddLast(values[i]);
                 }
-                else
-                {
-                    _root = null;
-                    _tail = null;
-                }
+            }
+            else
+            {
+                _root = null;
+                _tail = null;
+            }
         }
 
         public static LinkedList Create(int[] values)
@@ -103,7 +103,7 @@ namespace LibraryList
             if (!(obj is null))
             {
                 LinkedList list = LinkedList.Create(obj.ToArray());
-                for (int i = 0; i < list.Length; i++)
+                for (int i = 0; i < list.Length; ++i)
                 {
                     AddLast(list[i]);
                 }
@@ -126,7 +126,7 @@ namespace LibraryList
                 _tail = _root;
             }
 
-            Length++;
+            ++Length;
         }
 
         public void AddFirst(IList obj)
@@ -134,7 +134,7 @@ namespace LibraryList
             if (!(obj is null))
             {
                 LinkedList list = LinkedList.Create(obj.ToArray());
-             
+
                 for (int i = list.Length - 1; i >= 0; --i)
                 {
                     AddFirst(list[i]);
@@ -153,13 +153,12 @@ namespace LibraryList
                 if (index != 0)
                 {
                     Node ByIndex = new Node(value);
-
                     Node current = GetNodeByIndex(index - 1);
 
                     ByIndex.Next = current.Next;
                     current.Next = ByIndex;
 
-                    Length++;
+                    ++Length;
                 }
                 else
                 {
@@ -192,13 +191,12 @@ namespace LibraryList
                             newList.Length += Length - index;
                             Length = index;
 
-                            for (int i = 0; i < newLengthList; i++)
+                            for (int i = 0; i < newLengthList; ++i)
                             {
                                 AddLast(newList[i]);
                             }
 
                             newList._tail.Next = null;
-
                         }
                     }
                     else
@@ -240,16 +238,14 @@ namespace LibraryList
             {
                 if (index != 0)
                 {
-
                     Node current = GetNodeByIndex(index - 1);
-
                     current.Next = current.Next.Next;
 
                     if (current.Next is null)
                     {
                         _tail = current;
-
                     }
+
                     --Length;
                 }
                 else
@@ -260,7 +256,6 @@ namespace LibraryList
                         --Length;
                     }
                 }
-
             }
             else
             {
@@ -317,14 +312,12 @@ namespace LibraryList
             {
                 throw new ArgumentException("Wrong arguments");
             }
-
         }
 
         public void RemoveByIndex(int index, int count)
         {
             if (count >= 0)
             {
-
                 if (index >= 0 && index < Length)
                 {
                     if (Length != 0 || count != 0)
@@ -393,6 +386,7 @@ namespace LibraryList
                     Node stepByOne = _root.Next;
                     Node stepBySecond = _root.Next.Next;
                     _root.Next = null;
+
                     while (!(stepBySecond is null))
                     {
                         if (stepBySecond.Next is null)
@@ -498,7 +492,7 @@ namespace LibraryList
                 Node current = _root;
                 int minValue = _root.Value;
 
-                for (int i = 1; i < Length; i++)
+                for (int i = 1; i < Length; ++i)
                 {
                     if (minValue > current.Next.Value)
                     {
@@ -537,49 +531,47 @@ namespace LibraryList
 
         }
 
-
-
         public void Sort(bool isDescending)
         {
             if (!(this is null))
             {
                 Node new_root = null;
-                    while (_root != null)
+
+                while (_root != null)
+                {
+                    Node node = _root;
+                    _root = _root.Next;
+
+                    if (new_root == null || (node.Value > new_root.Value && !isDescending) || (node.Value < new_root.Value && isDescending))
                     {
-                        Node node = _root;
-                        _root = _root.Next;
+                        node.Next = new_root;
 
-                        if ( new_root == null ||  (node.Value > new_root.Value && !isDescending ) ||  (node.Value < new_root.Value && isDescending) )
+                        if (node.Next is null)
                         {
-                            node.Next = new_root;
-                            
-                            if (node.Next is null)
-                            {
-                                _tail = node;
-                            }
-
-                            new_root = node;
-
+                            _tail = node;
                         }
-                        else
-                        {
-                            Node current = new_root;
 
-                            while ((current.Next != null && !(node.Value > current.Next.Value) && !isDescending) || (current.Next != null && !(node.Value < current.Next.Value) && isDescending))
-                            {
-                                current = current.Next;
-                            }
-
-                            node.Next = current.Next;
-
-                            if (node.Next is null)
-                            {
-                                _tail = node;
-                            }
-
-                            current.Next = node;
-                        }
+                        new_root = node;
                     }
+                    else
+                    {
+                        Node current = new_root;
+
+                        while ((current.Next != null && !(node.Value > current.Next.Value) && !isDescending) || (current.Next != null && !(node.Value < current.Next.Value) && isDescending))
+                        {
+                            current = current.Next;
+                        }
+
+                        node.Next = current.Next;
+
+                        if (node.Next is null)
+                        {
+                            _tail = node;
+                        }
+
+                        current.Next = node;
+                    }
+                }
 
                 _root = new_root;
             }
@@ -594,7 +586,8 @@ namespace LibraryList
             int[] arr = new int[Length];
             int count = 0;
             Node current = _root;
-            while(!(current is null))
+
+            while (!(current is null))
             {
                 arr[count] = current.Value;
                 ++count;
@@ -603,6 +596,7 @@ namespace LibraryList
 
             return arr;
         }
+
         public override string ToString()
         {
             Node current = _root;
@@ -637,6 +631,7 @@ namespace LibraryList
                             isEqual = false;
                             break;
                         }
+
                         currentThis = currentThis.Next;
                         currentList = currentList.Next;
                     }
@@ -654,7 +649,7 @@ namespace LibraryList
             {
                 Node current = _root;
 
-                for (int i = 1; i <= index; i++)
+                for (int i = 1; i <= index; ++i)
                 {
                     current = current.Next;
                 }

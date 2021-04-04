@@ -3,7 +3,7 @@ using System.Text;
 
 namespace LibraryList
 {
-    public class ArrayList  : IList
+    public class ArrayList : IList
     {
         private const int indexZero = 0;
 
@@ -32,7 +32,7 @@ namespace LibraryList
             Length = 0;
             _array = new int[initArray.Length];
 
-            for (int i = 0; i < initArray.Length; i++)
+            for (int i = 0; i < initArray.Length; ++i)
             {
                 AddLast(initArray[i]);
             }
@@ -110,10 +110,11 @@ namespace LibraryList
 
         public void AddFirst(IList obj)
         {
-            if(!(obj is null))
+            if (!(obj is null))
             {
-            AddByIndex(indexZero, obj);
-            } else
+                AddByIndex(indexZero, obj);
+            }
+            else
             {
                 throw new ArgumentNullException("obj is null");
             }
@@ -172,7 +173,7 @@ namespace LibraryList
         {
             if (!(Length == 0))
             {
-                Length--;
+                --Length;
             }
 
             Resize(Length);
@@ -189,7 +190,7 @@ namespace LibraryList
             {
                 if (!(Length == 0))
                 {
-                    Length--;
+                    --Length;
                     ShiftLeft(index, shiftByOne);
                 }
 
@@ -201,13 +202,13 @@ namespace LibraryList
             }
         }
 
-        public void RemoveLast(int nElements)
+        public void RemoveLast(int count)
         {
-            if (nElements >= 0)
+            if (count >= 0)
             {
-                if (Length >= nElements)
+                if (Length >= count)
                 {
-                    Length -= nElements;
+                    Length -= count;
                 }
                 else
                 {
@@ -222,21 +223,21 @@ namespace LibraryList
             }
         }
 
-        public void RemoveFirst(int nElements)
+        public void RemoveFirst(int count)
         {
-            RemoveByIndex(indexZero, nElements);
+            RemoveByIndex(indexZero, count);
         }
 
-        public void RemoveByIndex(int index, int nElements)
+        public void RemoveByIndex(int index, int count)
         {
-            if (nElements >= 0)
+            if (count >= 0)
             {
                 if ((index == 0 && Length == 0) || (index < Length && index >= 0))
                 {
-                    if (Length - index >= nElements)
+                    if (Length - index >= count)
                     {
-                        Length -= nElements;
-                        ShiftLeft(index, nElements);
+                        Length -= count;
+                        ShiftLeft(index, count);
                     }
                     else
                     {
@@ -254,14 +255,13 @@ namespace LibraryList
             {
                 throw new ArgumentException("Removing negative number of elements");
             }
-
         }
 
         //GetIndexByValue for Maksim
         // indexOf for Svyatoslav
         public int GetIndexByValue(int value)
         {
-            for (int i = 0; i < Length; i++)
+            for (int i = 0; i < Length; ++i)
             {
                 if (value == _array[i])
                 {
@@ -276,7 +276,7 @@ namespace LibraryList
         {
             int temp;
             int swapIndex;
-            for (int i = 0; i < Length / 2; i++)
+            for (int i = 0; i < Length / 2; ++i)
             {
                 swapIndex = Length - i - 1;
                 temp = _array[i];
@@ -294,7 +294,7 @@ namespace LibraryList
             {
                 int maxIndexOfElement = 0;
 
-                for (int i = 1; i < Length; i++)
+                for (int i = 1; i < Length; ++i)
                 {
                     if (_array[maxIndexOfElement] < _array[i])
                     {
@@ -317,7 +317,7 @@ namespace LibraryList
 
                 int minIndexOfElement = 0;
 
-                for (int i = 1; i < Length; i++)
+                for (int i = 1; i < Length; ++i)
                 {
                     if (_array[minIndexOfElement] > _array[i])
                     {
@@ -329,7 +329,6 @@ namespace LibraryList
             }
 
             throw new ArgumentException("empty  list");
-
         }
 
         // Max for Svyatoslav
@@ -355,9 +354,9 @@ namespace LibraryList
             }
         }
 
-        public void RemoveAllByValue(int value) // 8 8 8 
+        public void RemoveAllByValue(int value)
         {
-            for (int i = 0; i < Length; i++)
+            for (int i = 0; i < Length; ++i)
             {
                 if (value == _array[i])
                 {
@@ -380,7 +379,7 @@ namespace LibraryList
                 while ((j > 0 && temp < _array[j - 1] && isDecending) || j > 0 && temp > _array[j - 1] && !isDecending)
                 {
                     _array[j] = _array[j - 1];
-                    j--;
+                    --j;
                 }
 
                 _array[j] = temp;
@@ -391,10 +390,11 @@ namespace LibraryList
         {
             int[] arr = new int[Length];
 
-            for (int i = 0; i < Length; i++)
+            for (int i = 0; i < Length; ++i)
             {
                 arr[i] = _array[i];
             }
+
             return arr;
         }
 
@@ -402,7 +402,7 @@ namespace LibraryList
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            for (int i = 0; i < Length; i++)
+            for (int i = 0; i < Length; ++i)
             {
                 stringBuilder.Append($"{_array[i]} ");
             }
@@ -421,7 +421,7 @@ namespace LibraryList
                     return false;
                 }
 
-                for (int i = 0; i < Length; i++)
+                for (int i = 0; i < Length; ++i)
                 {
                     if (this._array[i] != list._array[i])
                     {
@@ -451,22 +451,21 @@ namespace LibraryList
             }
         }
 
-        private void ShiftRight(int index, int nElements)
+        private void ShiftRight(int index, int count)
         {
             for (int i = Length - 1; i > index; --i)
             {
-                _array[i] = _array[i - nElements];
+                _array[i] = _array[i - count];
             }
         }
 
-        private void ShiftLeft(int index, int nElements)
+        private void ShiftLeft(int index, int count)
         {
             for (int i = index; i < Length; ++i)
             {
-                _array[i] = _array[i + nElements];
+                _array[i] = _array[i + count];
             }
         }
-
     }
 }
 

@@ -20,17 +20,18 @@ namespace LibraryList.Test
             Assert.AreEqual(expected, _actual.ToString());
         }
 
-        [TestCase(new int[] {1 },-1)]
-        [TestCase(new int[] {1,2 },6)]
+        [TestCase(new int[] { 1 }, -1)]
+        [TestCase(new int[] { 1, 2 }, 6)]
         public void IndexerSet_WhenIncorrectIndexPassed_ThenReturnIndexOutOfRangeException(int[] actualArray, int value)
         {
-                    Init(actualArray);
+            Init(actualArray);
 
             Assert.Throws<IndexOutOfRangeException>(() =>
             {
-                 _actual[value] = 11;
+                _actual[value] = 11;
             });
         }
+
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, new int[] { 1, 2, 3, 4, 5, 6 })]
         [TestCase(new int[] { }, new int[] { })]
         public void ToArray_WhenMethodUsed_ThenReturnArray(int[] actualArray, int[] expectedArray)
@@ -48,7 +49,7 @@ namespace LibraryList.Test
 
             Assert.Throws<IndexOutOfRangeException>(() =>
             {
-              int value = _actual[index];
+                int value = _actual[index];
             });
         }
 
@@ -66,7 +67,7 @@ namespace LibraryList.Test
 
         [TestCase(new int[] { 1 }, -1, -1)]
         [TestCase(new int[] { 1, 2 }, 6, 6)]
-        public void IndexerSet_WhenIndexPassed_ThenSetValue(int[] actualArray, int value , int expected)
+        public void IndexerSet_WhenIndexPassed_ThenSetValue(int[] actualArray, int value, int expected)
         {
             Init(actualArray);
 
@@ -131,7 +132,7 @@ namespace LibraryList.Test
         public void AddFirst_WhenListPassed_ThenAddListInFirst(int[] actualArray, int[] arrayForList, int[] expectedArray)
         {
             Init(actualArray, expectedArray);
-          
+
             _actual.AddFirst(DoubleLinkedList.Create(arrayForList));
 
             Assert.AreEqual(_expected, _actual);
@@ -155,7 +156,7 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, 0, 10, new int[] { 10, 1, 2, 3, 4, 5, 6 })]
         public void AddByIndex_WhenValueAndIndexPassed_ThenAddByIndex(int[] actualArray, int index, int value, int[] expectedArray)
         {
-            Init(actualArray,expectedArray);
+            Init(actualArray, expectedArray);
             _actual.AddByIndex(index, value);
 
             Assert.AreEqual(_expected, _actual);
@@ -183,12 +184,12 @@ namespace LibraryList.Test
         [TestCase(new int[] { 1, 2, 3 }, 0, new int[] { }, new int[] { 1, 2, 3 })]
         [TestCase(new int[] { 1, 2, 3 }, 2, new int[] { }, new int[] { 1, 2, 3 })]
         [TestCase(new int[] { }, 0, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 })]
-        [TestCase(new int[] {1,2,3,4,5,6,7,8,9,0,10,11,12,12 }, 10, new int[] { 1, 2 }, new int[] { 1, 2, 3, 4, 5, 6, 7, 8,9, 0,1,2, 10, 11, 12, 12 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 12, 12 }, 10, new int[] { 1, 2 }, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 10, 11, 12, 12 })]
         public void AddByIndex_WhenValidDataPassed_ThenAddByIndex(int[] actualArray, int index, int[] arrayForList, int[] expectedArray)
         {
             Init(actualArray, expectedArray);
 
-           _actual.AddByIndex(index, DoubleLinkedList.Create(arrayForList));
+            _actual.AddByIndex(index, DoubleLinkedList.Create(arrayForList));
 
             Assert.AreEqual(_expected, _actual);
         }
@@ -319,7 +320,6 @@ namespace LibraryList.Test
             Assert.AreEqual(_expected, _actual);
         }
 
-
         [TestCase(new int[] { 1, 2, 3 }, 0, -1)]
         public void RemoveByIndex_WhenIndexOrcountIncorrectPassed_ThenReturnArgumentException(int[] actualArray, int index, int count)
         {
@@ -329,7 +329,6 @@ namespace LibraryList.Test
                 _actual.RemoveByIndex(index, count);
             });
         }
-
 
         [TestCase(new int[] { 1, 2, 3 }, -1, 0)]
         [TestCase(new int[] { 1, 2, 3 }, 6, 0)]
@@ -534,8 +533,5 @@ namespace LibraryList.Test
 
             Assert.AreEqual(_expected, _actual); ;
         }
-
-
-
     }
 }
