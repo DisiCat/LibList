@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace LibraryList
@@ -24,10 +23,8 @@ namespace LibraryList
                     throw new IndexOutOfRangeException("incorect index");
                 }
             }
-
             set
             {
-
                 if (index >= 0 && index < Length)
                 {
                     GetNodeByIndex(index).Value = value;
@@ -36,7 +33,6 @@ namespace LibraryList
                 {
                     throw new IndexOutOfRangeException("incorect index");
                 }
-
             }
         }
 
@@ -184,10 +180,10 @@ namespace LibraryList
                         if (newList.Length != 0)
                         {
                             Node current = GetNodeByIndex(index - 1);
+                            int newLengthList = newList.Length + Length - index;
 
                             newList._tail.Next = current.Next;
                             _tail = current;
-                            int newLengthList = newList.Length + Length - index;
                             newList.Length += Length - index;
                             Length = index;
 
@@ -239,6 +235,7 @@ namespace LibraryList
                 if (index != 0)
                 {
                     Node current = GetNodeByIndex(index - 1);
+
                     current.Next = current.Next.Next;
 
                     if (current.Next is null)
@@ -335,6 +332,7 @@ namespace LibraryList
                             else
                             {
                                 Node sectionStart = GetNodeByIndex(index - 1);
+
                                 sectionStart.Next = null;
                                 _tail = sectionStart;
                                 Length = index;
@@ -362,18 +360,20 @@ namespace LibraryList
         public int GetIndexByValue(int value)
         {
             Node currentNode = _root;
+            int index = -1;
 
             for (int i = 0; i < Length; ++i)
             {
                 if (currentNode.Value == value)
                 {
-                    return i;
+                    index = i;
+                    break;
                 }
 
                 currentNode = currentNode.Next;
             }
 
-            return -1;
+            return index;
         }
 
         public void Reverse()
@@ -382,9 +382,10 @@ namespace LibraryList
             {
                 if (Length > 1)
                 {
-                    _tail.Next = _root;
                     Node stepByOne = _root.Next;
                     Node stepBySecond = _root.Next.Next;
+                    
+                    _tail.Next = _root;
                     _root.Next = null;
 
                     while (!(stepBySecond is null))

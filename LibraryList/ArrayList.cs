@@ -5,10 +5,6 @@ namespace LibraryList
 {
     public class ArrayList : IList
     {
-        private const int indexZero = 0;
-
-        private const int shiftByOne = 1;
-
         private int[] _array;
 
         public int Length { get; private set; }
@@ -31,10 +27,11 @@ namespace LibraryList
         {
             Length = 0;
             _array = new int[initArray.Length];
+            Length = initArray.Length;
 
             for (int i = 0; i < initArray.Length; ++i)
             {
-                AddLast(initArray[i]);
+                _array[i] = initArray[i];
             }
         }
 
@@ -58,10 +55,9 @@ namespace LibraryList
                 }
                 else
                 {
-                    throw new IndexOutOfRangeException(" Index out of range");
+                    throw new IndexOutOfRangeException("Index out of range");
                 }
             }
-
             set
             {
                 if (index < Length && index >= 0)
@@ -70,7 +66,7 @@ namespace LibraryList
                 }
                 else
                 {
-                    throw new IndexOutOfRangeException(" Index out of range");
+                    throw new IndexOutOfRangeException("Index out of range");
                 }
             }
         }
@@ -87,7 +83,9 @@ namespace LibraryList
             if (!(obj is null))
             {
                 ArrayList list = ArrayList.Create(obj.ToArray());
+
                 int oldLength = Length;
+
                 Length += list.Length;
 
                 Resize(oldLength);
@@ -105,14 +103,14 @@ namespace LibraryList
 
         public void AddFirst(int value)
         {
-            AddByIndex(indexZero, value);
+            AddByIndex(index: 0, value);
         }
 
         public void AddFirst(IList obj)
         {
             if (!(obj is null))
             {
-                AddByIndex(indexZero, obj);
+                AddByIndex(index: 0, obj);
             }
             else
             {
@@ -125,9 +123,9 @@ namespace LibraryList
             if ((index == 0 && Length == 0) || (index < Length && index >= 0))
             {
                 Resize(Length);
-                Length++;
+                ++Length;
 
-                ShiftRight(index, shiftByOne);
+                ShiftRight(index, count: 1);
 
                 _array[index] = value;
             }
@@ -141,12 +139,11 @@ namespace LibraryList
         {
             if (!(obj is null))
             {
-
                 if ((index == 0 && Length == 0) || (index < Length && index >= 0))
                 {
                     ArrayList list = ArrayList.Create((obj.ToArray()));
-
                     int oldLength = Length;
+
                     Length += list.Length;
 
                     Resize(oldLength);
@@ -181,7 +178,7 @@ namespace LibraryList
 
         public void RemoveFirst()
         {
-            RemoveByIndex(indexZero, shiftByOne);
+            RemoveByIndex(index: 0, count: 1);
         }
 
         public void RemoveByIndex(int index)
@@ -191,7 +188,7 @@ namespace LibraryList
                 if (!(Length == 0))
                 {
                     --Length;
-                    ShiftLeft(index, shiftByOne);
+                    ShiftLeft(index, count: 1);
                 }
 
                 Resize(Length);
@@ -225,7 +222,7 @@ namespace LibraryList
 
         public void RemoveFirst(int count)
         {
-            RemoveByIndex(indexZero, count);
+            RemoveByIndex(index: 0, count);
         }
 
         public void RemoveByIndex(int index, int count)
@@ -261,21 +258,25 @@ namespace LibraryList
         // indexOf for Svyatoslav
         public int GetIndexByValue(int value)
         {
+            int index = -1;
+
             for (int i = 0; i < Length; ++i)
             {
                 if (value == _array[i])
                 {
-                    return i;
+                    index = i;
+                    break;
                 }
             }
 
-            return -1;
+            return index;
         }
 
         public void Reverse()
         {
             int temp;
             int swapIndex;
+
             for (int i = 0; i < Length / 2; ++i)
             {
                 swapIndex = Length - i - 1;
@@ -314,7 +315,6 @@ namespace LibraryList
         {
             if (!(Length == 0))
             {
-
                 int minIndexOfElement = 0;
 
                 for (int i = 1; i < Length; ++i)
@@ -348,6 +348,7 @@ namespace LibraryList
         public void RemoveByValue(int value)
         {
             int index = GetIndexByValue(value);
+
             if (!(index == -1))
             {
                 RemoveByIndex(index);
@@ -376,7 +377,8 @@ namespace LibraryList
                 j = i;
                 temp = _array[i];
 
-                while ((j > 0 && temp < _array[j - 1] && isDecending) || j > 0 && temp > _array[j - 1] && !isDecending)
+                while ((j > 0 && temp < _array[j - 1] && isDecending)
+                    || j > 0 && temp > _array[j - 1] && !isDecending)
                 {
                     _array[j] = _array[j - 1];
                     --j;
@@ -412,24 +414,27 @@ namespace LibraryList
 
         public override bool Equals(object obj)
         {
+            bool isEquals = true;
+
             if (obj is null || obj is ArrayList)
             {
                 ArrayList list = (ArrayList)obj;
 
-                if (this.Length != list.Length)
+                if (Length != list.Length)
                 {
-                    return false;
+                    isEquals = false;
                 }
 
                 for (int i = 0; i < Length; ++i)
                 {
-                    if (this._array[i] != list._array[i])
+                    if (_array[i] != list._array[i])
                     {
-                        return false;
+                        isEquals = false;
+                        break;
                     }
                 }
 
-                return true;
+                return isEquals;
             }
 
             throw new ArgumentException("obj is not arrayList!");

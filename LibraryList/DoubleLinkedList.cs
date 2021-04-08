@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace LibraryList
@@ -84,6 +83,7 @@ namespace LibraryList
             if (Length != 0)
             {
                 DoubleNode current = _tail;
+
                 _tail.Next = new DoubleNode(value);
                 _tail = _tail.Next;
                 _tail.Previous = current;
@@ -153,7 +153,7 @@ namespace LibraryList
             }
             else
             {
-                throw new ArgumentNullException(" List is null");
+                throw new ArgumentNullException("List is null");
             }
         }
 
@@ -168,13 +168,6 @@ namespace LibraryList
                     DoubleNode current = GetNodeByIndex(index);
 
                     InsertNode(ByIndex, current);
-
-                    //ByIndex.Next = current;
-                    //ByIndex.Previous = current.Previous;
-
-                    //current.Previous.Next = ByIndex;
-                    //current.Previous = ByIndex;
-
                     ++Length;
                 }
                 else
@@ -272,11 +265,12 @@ namespace LibraryList
                     {
                         current.Next.Previous = current;
                     }
+
                     --Length;
                 }
                 else
                 {
-                    this.RemoveFirst();
+                    RemoveFirst();
                 }
             }
             else
@@ -347,7 +341,6 @@ namespace LibraryList
         {
             if (count >= 0)
             {
-
                 if (index >= 0 && index < Length)
                 {
                     if (Length != 0 || count != 0)
@@ -366,6 +359,7 @@ namespace LibraryList
                             else
                             {
                                 DoubleNode sectionStart = GetNodeByIndex(index - 1);
+
                                 sectionStart.Next = null;
                                 _tail = sectionStart;
                                 Length = index;
@@ -393,18 +387,20 @@ namespace LibraryList
         public int GetIndexByValue(int value)
         {
             DoubleNode currentNode = _root;
+            int index = -1;
 
             for (int i = 0; i < Length; ++i)
             {
                 if (currentNode.Value == value)
                 {
-                    return i;
+                    index = i;
+                    break;
                 }
 
                 currentNode = currentNode.Next;
             }
 
-            return -1;
+            return index;
         }
 
         public void RemoveByValue(int value)
@@ -415,7 +411,6 @@ namespace LibraryList
             {
                 RemoveByIndex(index);
             }
-
         }
 
         public void RemoveAllByValue(int value)
@@ -443,9 +438,9 @@ namespace LibraryList
                     while (stepByOne != _tail)
                     {
                         DoubleNode tmp = stepByOne.Next;
+
                         stepByOne.Next = stepByOne.Previous;
                         stepByOne.Previous = tmp;
-
                         stepByOne = stepByOne.Previous;
                     };
 
@@ -465,6 +460,7 @@ namespace LibraryList
             if (Length != 0 || this is null)
             {
                 DoubleNode current = _root;
+
                 int maxIndex = 0;
                 int maxValue = _root.Value;
 
@@ -492,6 +488,7 @@ namespace LibraryList
             if (Length != 0 || this is null)
             {
                 DoubleNode current = _root;
+
                 int minIndex = 0;
                 int minValue = _root.Value;
 
@@ -520,6 +517,7 @@ namespace LibraryList
             if (Length != 0 || this is null)
             {
                 DoubleNode current = _root;
+
                 int maxValue = _root.Value;
 
                 for (int i = 1; i < Length; i++)
@@ -572,9 +570,11 @@ namespace LibraryList
                 while (_root != null)
                 {
                     DoubleNode node = _root;
+
                     _root = _root.Next;
 
-                    if (new_root == null || (node.Value > new_root.Value && !isDescending) || (node.Value < new_root.Value && isDescending))
+                    if (new_root == null || (node.Value > new_root.Value && !isDescending)
+                        || (node.Value < new_root.Value && isDescending))
                     {
                         node.Next = new_root;
                         node.Previous = null;
@@ -594,7 +594,8 @@ namespace LibraryList
                     {
                         DoubleNode current = new_root;
 
-                        while ((current.Next != null && !(node.Value > current.Next.Value) && !isDescending) || (current.Next != null && !(node.Value < current.Next.Value) && isDescending))
+                        while ((current.Next != null && !(node.Value > current.Next.Value) && !isDescending)
+                            || (current.Next != null && !(node.Value < current.Next.Value) && isDescending))
                         {
                             current = current.Next;
                         }
@@ -624,10 +625,10 @@ namespace LibraryList
             int[] arr = new int[Length];
             int count = 0;
             DoubleNode current = _root;
+
             while (!(current is null))
             {
-                arr[count] = current.Value;
-                ++count;
+                arr[count++] = current.Value;
                 current = current.Next;
             }
 
@@ -646,7 +647,6 @@ namespace LibraryList
             }
 
             return stringBulder.ToString().Trim();
-
         }
 
         public override bool Equals(object obj)
@@ -656,17 +656,19 @@ namespace LibraryList
                 DoubleLinkedList list = (DoubleLinkedList)obj;
                 bool isEqual = false;
 
-                if (this.Length == list.Length)
+                if (Length == list.Length)
                 {
-                    isEqual = true;
-                    DoubleNode currentThis = this._root;
+                    DoubleNode currentThis = _root;
                     DoubleNode currentList = list._root;
-                    DoubleNode currentPrevThis = this._tail;
+                    DoubleNode currentPrevThis = _tail;
                     DoubleNode currentPrevList = list._tail;
+
+                    isEqual = true;
 
                     while (!(currentThis is null))
                     {
-                        if (currentThis.Value != currentList.Value || currentPrevThis.Value != currentPrevList.Value)
+                        if (currentThis.Value != currentList.Value
+                            || currentPrevThis.Value != currentPrevList.Value)
                         {
                             isEqual = false;
                             break;
@@ -692,7 +694,6 @@ namespace LibraryList
             newNode.Previous = current.Previous;
             current.Previous.Next = newNode;
             current.Previous = newNode;
-
         }
 
         private DoubleNode GetNodeByIndex(int index)
@@ -721,7 +722,6 @@ namespace LibraryList
                 }
 
                 return current;
-
             }
 
             throw new IndexOutOfRangeException("Index out of range");
