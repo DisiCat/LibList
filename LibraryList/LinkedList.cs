@@ -382,10 +382,11 @@ namespace LibraryList
             {
                 if (Length > 1)
                 {
+                    _tail.Next = _root;
+                  
                     Node stepByOne = _root.Next;
                     Node stepBySecond = _root.Next.Next;
                     
-                    _tail.Next = _root;
                     _root.Next = null;
 
                     while (!(stepBySecond is null))
