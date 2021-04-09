@@ -544,7 +544,8 @@ namespace LibraryList
                     Node node = _root;
                     _root = _root.Next;
 
-                    if (new_root == null || (node.Value > new_root.Value && !isDescending) || (node.Value < new_root.Value && isDescending))
+                    if (new_root == null || (node.Value > new_root.Value && !isDescending)
+                        || (node.Value < new_root.Value && isDescending))
                     {
                         node.Next = new_root;
 
@@ -559,7 +560,8 @@ namespace LibraryList
                     {
                         Node current = new_root;
 
-                        while ((current.Next != null && !(node.Value > current.Next.Value) && !isDescending) || (current.Next != null && !(node.Value < current.Next.Value) && isDescending))
+                        while ((current.Next != null && !(node.Value > current.Next.Value) && !isDescending)
+                            || (current.Next != null && !(node.Value < current.Next.Value) && isDescending))
                         {
                             current = current.Next;
                         }
@@ -591,8 +593,7 @@ namespace LibraryList
 
             while (!(current is null))
             {
-                arr[count] = current.Value;
-                ++count;
+                arr[count++] = current.Value;
                 current = current.Next;
             }
 
@@ -620,11 +621,11 @@ namespace LibraryList
                 LinkedList list = (LinkedList)obj;
                 bool isEqual = false;
 
-                if (this.Length == list.Length)
+                if (Length == list.Length)
                 {
-                    isEqual = true;
-                    Node currentThis = this._root;
+                    Node currentThis = _root;
                     Node currentList = list._root;
+                    isEqual = true;
 
                     while (!(currentThis is null))
                     {
